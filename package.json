@@ -1,0 +1,20 @@
+{
+  "name": "pecs2026-showcase",
+  "version": "1.0.0",
+  "description": "PECS 2026: Pangasinan Eco-Haven & Culinary Showcase - Regional Conference Proposal & Presentation Deck",
+  "author": "Yooxowie",
+  "license": "MIT",
+  "homepage": "https://github.com/Yooxowie/PECS2026",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "keywords": [
+    "mice",
+    "hospitality",
+    "tourism",
+    "presentation",
+    "slide-deck",
+    "phinma-upang",
+    "pangasinan"
+  ]
+}

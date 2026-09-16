@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PECS 2026 - Animated Presentation Deck</title>
-  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <title>PECS 2026 | Pangasinan Eco-Haven & Culinary Showcase</title>
+  <meta name="description" content="Regional Conference on Sustainable Tourism & Heritage Culinary Innovation - BAM 205 (MICE) PHINMA University of Pangasinan CHTM">
+  
+  <!-- Tailwind CSS & Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --c-forest: #1B4332;
@@ -13,19 +20,25 @@
       --c-light-gold: #F3DE8A;
       --c-aqua: #2A9D8F;
       --c-sand: #F8F9FA;
-      --c-card-border: #DCE4E0;
     }
     
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    
+    .font-serif-header {
+      font-family: 'Cinzel', Georgia, serif;
+    }
+
     .slide-aspect {
       aspect-ratio: 16 / 9;
     }
 
-    /* Base Slide Display */
     .slide-page {
       display: none;
       opacity: 0;
-      transform: scale(0.98) translateY(12px);
-      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.985) translateY(8px);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .slide-page.active {
       display: flex;
@@ -34,11 +47,10 @@
       transform: scale(1) translateY(0);
     }
 
-    /* Staggered Element Entrance Animations */
     @keyframes fadeInUp {
       0% {
         opacity: 0;
-        transform: translateY(18px) scale(0.97);
+        transform: translateY(14px) scale(0.98);
       }
       100% {
         opacity: 1;
@@ -47,30 +59,21 @@
     }
 
     @keyframes pulseGlow {
-      0%, 100% {
-        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-      }
-      50% {
-        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
-      }
-    }
-
-    @keyframes shimmer {
-      0% { background-position: -200% 0; }
-      100% { background-position: 200% 0; }
+      0%, 100% { box-shadow: 0 0 15px rgba(212, 175, 55, 0.25); }
+      50% { box-shadow: 0 0 25px rgba(212, 175, 55, 0.55); }
     }
 
     .slide-page.active .anim-fade-1 {
-      animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+      animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
     }
     .slide-page.active .anim-fade-2 {
-      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+      animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
     }
     .slide-page.active .anim-fade-3 {
-      animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
     }
     .slide-page.active .anim-fade-4 {
-      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+      animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
     }
 
     .glow-gold {
@@ -78,46 +81,57 @@
     }
 
     .card-hover {
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .card-hover:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 10px 20px -5px rgba(27, 67, 50, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(27, 67, 50, 0.12);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen p-3 md:p-6 flex flex-col items-center justify-center font-sans antialiased selection:bg-amber-400 selection:text-slate-900">
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 md:p-6 flex flex-col items-center justify-center antialiased selection:bg-amber-400 selection:text-slate-900">
 
-  <!-- Top Controller Bar -->
-  <div class="w-full max-w-5xl mb-3 flex flex-wrap items-center justify-between gap-3 bg-slate-900/95 border border-slate-800 px-5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md">
+  <!-- Top Controller & Download Action Bar -->
+  <div class="w-full max-w-5xl mb-3 flex flex-wrap items-center justify-between gap-3 bg-slate-900/95 border border-slate-800 px-4 md:px-5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md">
     <div class="flex items-center space-x-3">
       <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping"></div>
       <div>
         <div class="flex items-center gap-2">
-          <h1 class="font-bold text-sm md:text-base text-amber-300">PECS 2026: Animated Presentation</h1>
-          <span class="text-[10px] bg-emerald-900/80 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-mono font-semibold">ANIMATED DECK</span>
+          <h1 class="font-bold text-sm md:text-base text-amber-300 font-serif-header tracking-wide">PECS 2026</h1>
+          <span class="text-[10px] bg-emerald-900/80 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-mono font-semibold">17 SLIDES</span>
         </div>
-        <p class="text-xs text-slate-400">BAM 205 (MICE) • PHINMA University of Pangasinan CHTM</p>
+        <p class="text-[11px] text-slate-400 hidden sm:block">BAM 205 (MICE) • PHINMA University of Pangasinan CHTM</p>
       </div>
     </div>
     
-    <div class="flex items-center space-x-2">
+    <!-- Controls & Action Downloads -->
+    <div class="flex flex-wrap items-center gap-2">
+      <!-- Direct Download Buttons -->
+      <a href="PECS_2026_Animated_Presentation.pptx" download class="px-2.5 py-1 text-[11px] font-semibold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
+        <span>📊</span> <span class="hidden md:inline">Download</span> PPTX
+      </a>
+      <a href="PECS_2026_Administrative_Letters.docx" download class="px-2.5 py-1 text-[11px] font-semibold bg-blue-500/15 hover:bg-blue-500/25 text-blue-300 border border-blue-500/40 rounded-lg flex items-center gap-1.5 transition-all shadow-sm">
+        <span>📝</span> <span class="hidden md:inline">Download</span> DOCX
+      </a>
+
+      <div class="h-4 w-px bg-slate-700 mx-1 hidden sm:block"></div>
+
       <!-- Auto Play Button -->
-      <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 rounded-lg border border-slate-700 shadow-sm flex items-center gap-1.5 transition-all">
-        <span id="playIcon">▶</span> <span id="playText">Auto Play</span>
+      <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="px-2.5 py-1 text-[11px] font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 rounded-lg border border-slate-700 shadow-sm flex items-center gap-1 transition-all">
+        <span id="playIcon">▶</span> <span id="playText" class="hidden sm:inline">Auto</span>
       </button>
 
       <!-- Prev / Next Controls -->
-      <button id="prevBtn" onclick="changeSlide(-1)" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-emerald-700 active:scale-95 transition-all text-white rounded-lg border border-slate-700 shadow-sm flex items-center gap-1">
-        <span>◀</span> Prev
+      <button id="prevBtn" onclick="changeSlide(-1)" class="px-3 py-1 text-xs font-semibold bg-slate-800 hover:bg-emerald-700 active:scale-95 transition-all text-white rounded-lg border border-slate-700 shadow-sm flex items-center gap-1">
+        <span>◀</span>
       </button>
-      <span id="slideIndicator" class="px-3 py-1 text-xs font-bold text-amber-400 bg-slate-950 rounded-lg border border-slate-800 shadow-inner font-mono">1 / 17</span>
-      <button id="nextBtn" onclick="changeSlide(1)" class="px-3.5 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all text-white rounded-lg shadow-md flex items-center gap-1">
-        Next <span>▶</span>
+      <span id="slideIndicator" class="px-2.5 py-1 text-xs font-bold text-amber-400 bg-slate-950 rounded-lg border border-slate-800 shadow-inner font-mono">1 / 17</span>
+      <button id="nextBtn" onclick="changeSlide(1)" class="px-3 py-1 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all text-white rounded-lg shadow-md flex items-center gap-1">
+        <span>▶</span>
       </button>
       
       <!-- Fullscreen Button -->
-      <button onclick="toggleFullscreen()" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-all" title="Toggle Fullscreen (Key: F)">
+      <button onclick="toggleFullscreen()" class="px-2 py-1 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-all" title="Toggle Fullscreen (Key: F)">
         ⛶
       </button>
     </div>
@@ -125,7 +139,7 @@
 
   <!-- Animated Progress Bar -->
   <div class="w-full max-w-5xl h-1.5 bg-slate-800/80 rounded-full mb-3 overflow-hidden shadow-inner">
-    <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-500 ease-out" style="width: 5.88%;"></div>
+    <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-400 ease-out" style="width: 5.88%;"></div>
   </div>
 
   <!-- Main Slide Canvas (16:9) -->
@@ -139,7 +153,7 @@
         <div class="inline-block bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded-md tracking-wider uppercase mb-3 shadow-md">
           BAM 205 • MICE EVENT PROPOSAL
         </div>
-        <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#D4AF37] tracking-tight">PECS 2026</h1>
+        <h1 class="text-4xl md:text-5xl font-serif-header font-bold text-[#D4AF37] tracking-tight">PECS 2026</h1>
         <h2 class="text-xl md:text-2xl font-serif font-semibold text-white mt-1">Pangasinan Eco-Haven & Culinary Showcase</h2>
         <p class="text-sm md:text-base font-serif italic text-[#F3DE8A] mt-2 border-b border-[#D4AF37]/50 pb-4">
           Regional Conference on Sustainable Tourism & Heritage Culinary Innovation
@@ -319,35 +333,35 @@
 
       <div class="space-y-2 my-auto">
         <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-1">
-          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">S</div>
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif-header font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">S</div>
           <div>
             <span class="text-xs font-bold text-[#1B4332] uppercase">Specific:</span>
             <p class="text-[11px] text-slate-700">Host a regional academic conference featuring 3 keynote sessions and 4 student research panel presentations on Pangasinan tourism development and culinary heritage.</p>
           </div>
         </div>
         <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-2">
-          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">M</div>
+          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif-header font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">M</div>
           <div>
             <span class="text-xs font-bold text-teal-800 uppercase">Measurable:</span>
             <p class="text-[11px] text-slate-700">Achieve attendance of at least 500 registered delegates and collect completed session feedback forms from at least 90% of attendees.</p>
           </div>
         </div>
         <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-3">
-          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">A</div>
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif-header font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">A</div>
           <div>
             <span class="text-xs font-bold text-[#1B4332] uppercase">Achievable:</span>
             <p class="text-[11px] text-slate-700">Secure regional tourism officials and faculty experts as session speakers and panel reactors using the university's central facility.</p>
           </div>
         </div>
         <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-4">
-          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">R</div>
+          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif-header font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">R</div>
           <div>
             <span class="text-xs font-bold text-teal-800 uppercase">Relevant:</span>
             <p class="text-[11px] text-slate-700">Fulfill BAM 205 conference management competencies including large-scale program structuring, speaker management, main-stage AV logistics, and delegate registration.</p>
           </div>
         </div>
         <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-4">
-          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">T</div>
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif-header font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">T</div>
           <div>
             <span class="text-xs font-bold text-[#1B4332] uppercase">Time-bound:</span>
             <p class="text-[11px] text-slate-700">Execute the complete plenary schedule, panel sessions, open forum, and awarding ceremony within a 7-hour operational timeframe on September 17, 2026.</p>
@@ -905,7 +919,7 @@
         <div class="inline-block bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded-md tracking-wider uppercase mb-3 shadow-md">
           CONCLUSION & STRATEGIC IMPACT
         </div>
-        <h2 class="text-3xl md:text-4xl font-serif font-bold text-[#D4AF37]">Ready to Deliver an Exemplary MICE Experience</h2>
+        <h2 class="text-3xl md:text-4xl font-serif-header font-bold text-[#D4AF37]">Ready to Deliver an Exemplary MICE Experience</h2>
         <p class="text-sm md:text-base font-serif italic text-slate-200 mt-2">
           PECS 2026 bridges academic rigor with regional hospitality excellence, empowering BAM 205 students with real-world conference leadership.
         </p>
@@ -1008,7 +1022,7 @@
         clearInterval(autoPlayTimer);
         isAutoPlaying = false;
         document.getElementById('playIcon').innerText = '▶';
-        document.getElementById('playText').innerText = 'Auto Play';
+        document.getElementById('playText').innerText = 'Auto';
         document.getElementById('autoPlayBtn').classList.remove('bg-emerald-700', 'text-white');
       } else {
         isAutoPlaying = true;
