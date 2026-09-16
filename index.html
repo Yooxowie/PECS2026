@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PECS 2026 - Animated Presentation Deck</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --c-forest: #1B4332;
+      --c-deep: #102A1F;
+      --c-gold: #D4AF37;
+      --c-light-gold: #F3DE8A;
+      --c-aqua: #2A9D8F;
+      --c-sand: #F8F9FA;
+      --c-card-border: #DCE4E0;
+    }
+    
+    .slide-aspect {
+      aspect-ratio: 16 / 9;
+    }
+
+    /* Base Slide Display */
+    .slide-page {
+      display: none;
+      opacity: 0;
+      transform: scale(0.98) translateY(12px);
+      transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .slide-page.active {
+      display: flex;
+      flex-direction: column;
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* Staggered Element Entrance Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+      }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .slide-page.active .anim-fade-1 {
+      animation: fadeInUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+    }
+    .slide-page.active .anim-fade-2 {
+      animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    }
+    .slide-page.active .anim-fade-3 {
+      animation: fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+    }
+    .slide-page.active .anim-fade-4 {
+      animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    }
+
+    .glow-gold {
+      animation: pulseGlow 3s infinite ease-in-out;
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px -5px rgba(27, 67, 50, 0.15);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-3 md:p-6 flex flex-col items-center justify-center font-sans antialiased selection:bg-amber-400 selection:text-slate-900">
+
+  <!-- Top Controller Bar -->
+  <div class="w-full max-w-5xl mb-3 flex flex-wrap items-center justify-between gap-3 bg-slate-900/95 border border-slate-800 px-5 py-2.5 rounded-2xl shadow-2xl backdrop-blur-md">
+    <div class="flex items-center space-x-3">
+      <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-ping"></div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="font-bold text-sm md:text-base text-amber-300">PECS 2026: Animated Presentation</h1>
+          <span class="text-[10px] bg-emerald-900/80 text-emerald-300 border border-emerald-700 px-1.5 py-0.5 rounded font-mono font-semibold">ANIMATED DECK</span>
+        </div>
+        <p class="text-xs text-slate-400">BAM 205 (MICE) • PHINMA University of Pangasinan CHTM</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <!-- Auto Play Button -->
+      <button id="autoPlayBtn" onclick="toggleAutoPlay()" class="px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-amber-300 rounded-lg border border-slate-700 shadow-sm flex items-center gap-1.5 transition-all">
+        <span id="playIcon">▶</span> <span id="playText">Auto Play</span>
+      </button>
+
+      <!-- Prev / Next Controls -->
+      <button id="prevBtn" onclick="changeSlide(-1)" class="px-3.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-emerald-700 active:scale-95 transition-all text-white rounded-lg border border-slate-700 shadow-sm flex items-center gap-1">
+        <span>◀</span> Prev
+      </button>
+      <span id="slideIndicator" class="px-3 py-1 text-xs font-bold text-amber-400 bg-slate-950 rounded-lg border border-slate-800 shadow-inner font-mono">1 / 17</span>
+      <button id="nextBtn" onclick="changeSlide(1)" class="px-3.5 py-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 active:scale-95 transition-all text-white rounded-lg shadow-md flex items-center gap-1">
+        Next <span>▶</span>
+      </button>
+      
+      <!-- Fullscreen Button -->
+      <button onclick="toggleFullscreen()" class="px-2.5 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg border border-slate-700 transition-all" title="Toggle Fullscreen (Key: F)">
+        ⛶
+      </button>
+    </div>
+  </div>
+
+  <!-- Animated Progress Bar -->
+  <div class="w-full max-w-5xl h-1.5 bg-slate-800/80 rounded-full mb-3 overflow-hidden shadow-inner">
+    <div id="progressBar" class="h-full bg-gradient-to-r from-emerald-500 via-teal-400 to-amber-400 rounded-full transition-all duration-500 ease-out" style="width: 5.88%;"></div>
+  </div>
+
+  <!-- Main Slide Canvas (16:9) -->
+  <div id="slideContainer" class="w-full max-w-5xl slide-aspect bg-[#F8F9FA] text-[#1E2923] rounded-2xl shadow-2xl overflow-hidden border-2 border-emerald-900/40 relative flex flex-col justify-between select-none">
+
+    <!-- SLIDE 1: TITLE SLIDE -->
+    <div class="slide-page active w-full h-full bg-[#102A1F] text-white p-8 md:p-12 justify-between relative overflow-hidden">
+      <div class="absolute left-0 top-0 bottom-0 w-3 bg-[#D4AF37]"></div>
+      
+      <div class="anim-fade-1">
+        <div class="inline-block bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded-md tracking-wider uppercase mb-3 shadow-md">
+          BAM 205 • MICE EVENT PROPOSAL
+        </div>
+        <h1 class="text-4xl md:text-5xl font-serif font-bold text-[#D4AF37] tracking-tight">PECS 2026</h1>
+        <h2 class="text-xl md:text-2xl font-serif font-semibold text-white mt-1">Pangasinan Eco-Haven & Culinary Showcase</h2>
+        <p class="text-sm md:text-base font-serif italic text-[#F3DE8A] mt-2 border-b border-[#D4AF37]/50 pb-4">
+          Regional Conference on Sustainable Tourism & Heritage Culinary Innovation
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 my-2 anim-fade-2">
+        <div class="bg-[#1B4332] border border-[#2A9D8F] p-3.5 rounded-xl shadow-lg card-hover">
+          <div class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider mb-1">📅 DATE & TIME</div>
+          <div class="text-xs md:text-sm font-medium text-slate-100">Thursday, Sept 17, 2026</div>
+          <div class="text-[11px] text-slate-300">8:30 AM – 3:30 PM (7h)</div>
+        </div>
+        <div class="bg-[#1B4332] border border-[#2A9D8F] p-3.5 rounded-xl shadow-lg card-hover">
+          <div class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider mb-1">📍 OFFICIAL VENUE</div>
+          <div class="text-xs md:text-sm font-medium text-slate-100">PHINMA-UPang Gymnasium</div>
+          <div class="text-[11px] text-slate-300">Arellano St., Dagupan City</div>
+        </div>
+        <div class="bg-[#1B4332] border border-[#2A9D8F] p-3.5 rounded-xl shadow-lg card-hover">
+          <div class="text-[#D4AF37] text-xs font-bold uppercase tracking-wider mb-1">👥 DELEGATES</div>
+          <div class="text-xs md:text-sm font-medium text-slate-100">500+ Seated Attendees</div>
+          <div class="text-[11px] text-slate-300">BSHM, BSTM, Faculty & VIPs</div>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-emerald-800/80 flex justify-between items-center text-xs text-slate-300 anim-fade-3">
+        <div><strong class="text-white">College of Hospitality and Tourism Management (CHTM)</strong> — PHINMA University of Pangasinan</div>
+        <div class="text-amber-400 font-semibold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+          BAM 205 MICE Class
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: EXECUTIVE SUMMARY -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 flex justify-between items-end anim-fade-1">
+        <div>
+          <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 1 & 2 • Event Identity</span>
+          <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Executive Summary & Classification</h2>
+        </div>
+        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200 shadow-sm">MICE Conference</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 my-auto">
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">EVENT ESSENTIALS</div>
+          <ul class="text-xs space-y-2.5 text-slate-700">
+            <li><strong class="text-emerald-900">Event Title:</strong> PECS 2026: Pangasinan Eco-Haven & Culinary Showcase</li>
+            <li><strong class="text-emerald-900">Official Subtitle:</strong> Regional Conference on Sustainable Tourism & Heritage Culinary Innovation</li>
+            <li><strong class="text-emerald-900">Host Course:</strong> BAM 205: Meetings, Incentives, Conferences, and Exhibitions (MICE)</li>
+            <li><strong class="text-emerald-900">Institution:</strong> CHTM — PHINMA University of Pangasinan</li>
+          </ul>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-md card-hover anim-fade-3">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">STRATEGIC VALUE PROPOSITION</div>
+          <div class="space-y-2.5 text-xs text-slate-700">
+            <div>
+              <span class="font-bold text-[#2A9D8F] block">🌿 Eco-Haven Framework</span>
+              Addresses coastal carrying capacity and eco-tourism development along Lingayen Gulf.
+            </div>
+            <div>
+              <span class="font-bold text-[#2A9D8F] block">🍲 Heritage Culinary Innovation</span>
+              Safeguards authentic regional gastronomic recipes (Bangus, Longganisa, Kakanin) with modern culinary techniques.
+            </div>
+            <div>
+              <span class="font-bold text-[#2A9D8F] block">🎓 Academic & Industry Synergy</span>
+              Unites 500+ students, municipal tourism officers, resort GMs, and historians.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between anim-fade-4">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: THEME & CONCEPT -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 3 • Vision & Direction</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Theme & Conceptual Framework</h2>
+      </div>
+
+      <div class="bg-[#1B4332] border border-[#D4AF37] text-white p-4 rounded-xl shadow-md my-2 anim-fade-2 glow-gold">
+        <span class="text-[10px] font-bold text-[#D4AF37] tracking-wider uppercase block mb-1">OFFICIAL CONFERENCE THEME</span>
+        <p class="text-sm md:text-base font-serif italic text-white font-semibold leading-snug">
+          “Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan”
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 my-auto">
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-white font-bold text-[11px] py-1 text-center rounded mb-2">01. PLENARY KEYNOTES</div>
+          <h4 class="font-bold text-xs text-[#1B4332] mb-1">Expert Dialogues</h4>
+          <p class="text-[11px] text-slate-600 leading-relaxed">Presentations by municipal tourism officers and culinary historians on destination preservation and authentic recipes.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-md card-hover anim-fade-3">
+          <div class="bg-[#2A9D8F] text-white font-bold text-[11px] py-1 text-center rounded mb-2">02. RESEARCH COLLOQUIUM</div>
+          <h4 class="font-bold text-xs text-[#1B4332] mb-1">Student Innovation</h4>
+          <p class="text-[11px] text-slate-600 leading-relaxed">Oral presentations of 4 selected student research papers on resort models, eco-tourism, and sustainable hospitality.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-md card-hover anim-fade-4">
+          <div class="bg-[#1B4332] text-white font-bold text-[11px] py-1 text-center rounded mb-2">03. MULTI-STAKEHOLDER Q&A</div>
+          <h4 class="font-bold text-xs text-[#1B4332] mb-1">Open Academic Forum</h4>
+          <p class="text-[11px] text-slate-600 leading-relaxed">Interactive floor microphone exchange connecting 500+ undergraduate delegates with industry panelists.</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: TARGET AUDIENCE -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 4 • Stakeholder Segmentation</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Target Audience & Capacity Profiles</h2>
+      </div>
+
+      <div class="grid grid-cols-2 gap-6 my-auto">
+        <div class="bg-white border-2 border-emerald-800/30 rounded-xl p-4 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3 flex justify-between">
+            <span>PRIMARY AUDIENCE — DELEGATES</span>
+            <span class="bg-[#D4AF37] text-slate-900 px-1.5 py-0.2 rounded font-bold">500+ Pax</span>
+          </div>
+          <ul class="text-xs space-y-2 text-slate-700">
+            <li><strong class="text-emerald-950">Profile:</strong> BSHM & BSTM students, student researchers, and CHTM faculty.</li>
+            <li><strong class="text-emerald-950">Seating:</strong> 500+ seated delegates on the UPang Gymnasium main floor.</li>
+            <li><strong class="text-emerald-950">Core Needs:</strong>
+              <ul class="list-disc list-inside text-slate-600 pl-1 mt-1 space-y-1 text-[11px]">
+                <li>Practical industry insights & policy updates</li>
+                <li>Research validation & peer academic critique</li>
+                <li>Conference kit (ID badge, notepad, program, tote)</li>
+                <li>Verified digital certificate of participation</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="bg-white border-2 border-teal-700/30 rounded-xl p-4 shadow-md card-hover anim-fade-3">
+          <div class="bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1.5 rounded mb-3 flex justify-between">
+            <span>SECONDARY AUDIENCE — VIPs & SPEAKERS</span>
+            <span class="bg-white text-teal-900 px-1.5 py-0.2 rounded font-bold">8–10 Pax</span>
+          </div>
+          <ul class="text-xs space-y-2 text-slate-700">
+            <li><strong class="text-teal-950">Profile:</strong> Municipal Tourism Officers (MTOs), Resort GMs, Culinary Historians, Faculty Panelists.</li>
+            <li><strong class="text-teal-950">Seating:</strong> Reserved front-row VIP tables & holding lounge.</li>
+            <li><strong class="text-teal-950">Core Needs:</strong>
+              <ul class="list-disc list-inside text-slate-600 pl-1 mt-1 space-y-1 text-[11px]">
+                <li>Punctual program pacing and stage cue management</li>
+                <li>Dedicated VIP holding lounge & plated dining</li>
+                <li>Crystal-clear audio, confidence monitors & roving mics</li>
+                <li>Tokens of appreciation, honoraria & plaques</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: SMART OBJECTIVES -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 5 • Measurable Outcomes</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">SMART Event Objectives</h2>
+      </div>
+
+      <div class="space-y-2 my-auto">
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-1">
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">S</div>
+          <div>
+            <span class="text-xs font-bold text-[#1B4332] uppercase">Specific:</span>
+            <p class="text-[11px] text-slate-700">Host a regional academic conference featuring 3 keynote sessions and 4 student research panel presentations on Pangasinan tourism development and culinary heritage.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-2">
+          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">M</div>
+          <div>
+            <span class="text-xs font-bold text-teal-800 uppercase">Measurable:</span>
+            <p class="text-[11px] text-slate-700">Achieve attendance of at least 500 registered delegates and collect completed session feedback forms from at least 90% of attendees.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-3">
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">A</div>
+          <div>
+            <span class="text-xs font-bold text-[#1B4332] uppercase">Achievable:</span>
+            <p class="text-[11px] text-slate-700">Secure regional tourism officials and faculty experts as session speakers and panel reactors using the university's central facility.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-4">
+          <div class="w-10 h-10 rounded-lg bg-[#2A9D8F] text-white font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">R</div>
+          <div>
+            <span class="text-xs font-bold text-teal-800 uppercase">Relevant:</span>
+            <p class="text-[11px] text-slate-700">Fulfill BAM 205 conference management competencies including large-scale program structuring, speaker management, main-stage AV logistics, and delegate registration.</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2.5 rounded-xl shadow-sm card-hover anim-fade-4">
+          <div class="w-10 h-10 rounded-lg bg-[#1B4332] text-[#D4AF37] font-serif font-bold text-lg flex items-center justify-center flex-shrink-0 shadow-md">T</div>
+          <div>
+            <span class="text-xs font-bold text-[#1B4332] uppercase">Time-bound:</span>
+            <p class="text-[11px] text-slate-700">Execute the complete plenary schedule, panel sessions, open forum, and awarding ceremony within a 7-hour operational timeframe on September 17, 2026.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: VENUE RATIONALE -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 6 • Event Timing & Location</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Proposed Date & Venue Facilities Analysis</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="bg-white border-2 border-emerald-800/30 rounded-xl p-4 shadow-md card-hover col-span-1 anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">LOGISTICS SUMMARY</div>
+          <div class="space-y-3 text-xs text-slate-700">
+            <div>
+              <strong class="text-emerald-950 block">🗓️ Date:</strong>
+              Thursday, September 17, 2026
+            </div>
+            <div>
+              <strong class="text-emerald-950 block">⏰ Operational Hours:</strong>
+              8:30 AM – 3:30 PM (7h)
+            </div>
+            <div>
+              <strong class="text-emerald-950 block">📍 Venue:</strong>
+              PHINMA-UPang Gymnasium
+            </div>
+            <div>
+              <strong class="text-emerald-950 block">📌 Location:</strong>
+              Arellano Street, Dagupan City
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 col-span-2">
+          <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover anim-fade-2">
+            <h4 class="font-bold text-xs text-emerald-900 mb-1">👥 500+ Seating Capacity</h4>
+            <p class="text-[11px] text-slate-600">Ample floor and bleacher capacity to seat 500+ delegates comfortably with clear safety egress.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover anim-fade-3">
+            <h4 class="font-bold text-xs text-emerald-900 mb-1">🎤 Elevated Stage</h4>
+            <p class="text-[11px] text-slate-600">Dedicated elevated stage providing complete sightlines for keynotes, slide projections, and awarding.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover anim-fade-3">
+            <h4 class="font-bold text-xs text-emerald-900 mb-1">🔊 Acoustic & AV Setup</h4>
+            <p class="text-[11px] text-slate-600">Integrated university sound reinforcement system, wireless lapels, and LED backdrop connectivity.</p>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover anim-fade-4">
+            <h4 class="font-bold text-xs text-emerald-900 mb-1">🚪 Foyer & VIP Lounge</h4>
+            <p class="text-[11px] text-slate-600">Spacious foyer for multi-lane registration kits and air-conditioned VIP lounge for guest dining.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: MORNING AGENDA -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 7 (Part 1) • Schedule of Activities</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Program Flow: Morning Plenary (08:30 AM – 12:00 PM)</h2>
+      </div>
+
+      <div class="overflow-hidden rounded-xl border border-slate-300 shadow-md my-auto text-xs anim-fade-2">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-[#1B4332] text-[#D4AF37]">
+            <tr>
+              <th class="p-2.5 font-bold w-1/5">Time</th>
+              <th class="p-2.5 font-bold w-1/4">Session Title</th>
+              <th class="p-2.5 font-bold w-2/5">Description / Content</th>
+              <th class="p-2.5 font-bold">In-Charge</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px]">
+            <tr class="bg-white hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">08:30 – 09:00 AM</td>
+              <td class="p-2 font-semibold text-slate-900">Delegate Registration & Kit Distribution</td>
+              <td class="p-2 text-slate-600">Sign-in at Gym foyer; badge, notepad kit & program kit distribution.</td>
+              <td class="p-2 text-slate-700">Secretariat & Registration</td>
+            </tr>
+            <tr class="bg-slate-50 hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">09:00 – 09:30 AM</td>
+              <td class="p-2 font-semibold text-slate-900">Opening Plenary & Welcome Address</td>
+              <td class="p-2 text-slate-600">Doxology, National Anthem, and Opening Remarks by CHTM Leadership.</td>
+              <td class="p-2 text-slate-700">Conference Emcee</td>
+            </tr>
+            <tr class="bg-white hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">09:30 – 10:30 AM</td>
+              <td class="p-2 font-semibold text-slate-900">Keynote 1: Coastal Eco-Tourism Frameworks</td>
+              <td class="p-2 text-slate-600">Sustainable destination management across Pangasinan municipalities.</td>
+              <td class="p-2 text-slate-700">Municipal Tourism Officer</td>
+            </tr>
+            <tr class="bg-slate-50 hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">10:30 – 11:30 AM</td>
+              <td class="p-2 font-semibold text-slate-900">Keynote 2: Preserving Heritage Flavor Profiles</td>
+              <td class="p-2 text-slate-600">Preserving regional culinary recipes and integrating with modern hospitality.</td>
+              <td class="p-2 text-slate-700">Guest Chef / Historian</td>
+            </tr>
+            <tr class="bg-white hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">11:30 – 12:00 PM</td>
+              <td class="p-2 font-semibold text-slate-900">Open Forum & Delegate Q&A</td>
+              <td class="p-2 text-slate-600">Floor microphones open for delegate inquiries directed to Keynotes 1 & 2.</td>
+              <td class="p-2 text-slate-700">Stage Moderator</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: AFTERNOON AGENDA -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 7 (Part 2) • Schedule of Activities</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Program Flow: Afternoon Colloquium (12:00 PM – 03:30 PM)</h2>
+      </div>
+
+      <div class="overflow-hidden rounded-xl border border-slate-300 shadow-md my-auto text-xs anim-fade-2">
+        <table class="w-full text-left border-collapse">
+          <thead class="bg-[#1B4332] text-[#D4AF37]">
+            <tr>
+              <th class="p-2.5 font-bold w-1/5">Time</th>
+              <th class="p-2.5 font-bold w-1/4">Session Title</th>
+              <th class="p-2.5 font-bold w-2/5">Description / Content</th>
+              <th class="p-2.5 font-bold">In-Charge</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-[11px]">
+            <tr class="bg-white hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">12:00 – 01:00 PM</td>
+              <td class="p-2 font-semibold text-slate-900">Lunch Break & Networking</td>
+              <td class="p-2 text-slate-600">Networking lunch for delegates; VIP dining in the designated Gym VIP Lounge.</td>
+              <td class="p-2 text-slate-700">Logistics & Catering</td>
+            </tr>
+            <tr class="bg-slate-50 hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">01:00 – 02:30 PM</td>
+              <td class="p-2 font-semibold text-slate-900">Panel Session: Student Colloquium</td>
+              <td class="p-2 text-slate-600">Oral presentations of 4 selected student research papers on resort models & eco-tourism.</td>
+              <td class="p-2 text-slate-700">Presenters & Reactor Panel</td>
+            </tr>
+            <tr class="bg-white hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">02:30 – 03:15 PM</td>
+              <td class="p-2 font-semibold text-slate-900">Awarding of Best Paper & Plaques</td>
+              <td class="p-2 text-slate-600">Conferment of Plaques of Appreciation to speakers and Best Student Research.</td>
+              <td class="p-2 text-slate-700">Conference Director & Dean</td>
+            </tr>
+            <tr class="bg-slate-50 hover:bg-emerald-50/50 transition-colors">
+              <td class="p-2 font-bold text-emerald-900">03:15 – 03:30 PM</td>
+              <td class="p-2 font-semibold text-slate-900">Closing Remarks & Photo Session</td>
+              <td class="p-2 text-slate-600">Formal adjournment of PECS 2026 Conference followed by stage group photo.</td>
+              <td class="p-2 text-slate-700">Conference Director</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="bg-emerald-50 border border-emerald-300 p-2.5 rounded-lg text-[11px] text-emerald-900 flex items-center justify-between anim-fade-3">
+        <span>⏱️ <strong>Time Allocation Protocol:</strong> 15 mins presentation + 5 mins reactor critique per student research paper.</span>
+        <span class="font-bold text-emerald-700">Strict Pacing</span>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: BUDGET -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 8 • Cost Breakdown</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Estimated Budget & Financial Plan</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="col-span-2 overflow-hidden rounded-xl border border-slate-300 shadow-md text-xs anim-fade-2">
+          <table class="w-full text-left border-collapse">
+            <thead class="bg-[#1B4332] text-[#D4AF37]">
+              <tr>
+                <th class="p-2.5 font-bold">Expense Item</th>
+                <th class="p-2.5 font-bold text-right">Cost (PHP)</th>
+                <th class="p-2.5 font-bold">Notes / Details</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-[11px]">
+              <tr class="bg-white">
+                <td class="p-2 font-semibold text-slate-800">Speaker Honoraria & Tokens</td>
+                <td class="p-2 font-bold text-emerald-900 text-right">₱15,000</td>
+                <td class="p-2 text-slate-600">Tokens, local produce baskets & honoraria</td>
+              </tr>
+              <tr class="bg-slate-50">
+                <td class="p-2 font-semibold text-slate-800">Delegate Kits & Printed Materials</td>
+                <td class="p-2 font-bold text-emerald-900 text-right">₱20,000</td>
+                <td class="p-2 text-slate-600">Lanyards, badges, notepad kits for 500 pax</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="p-2 font-semibold text-slate-800">Venue AV & Stage Framing</td>
+                <td class="p-2 font-bold text-emerald-900 text-right">₱15,000</td>
+                <td class="p-2 text-slate-600">LED backdrop, wireless lapels, podium wrap</td>
+              </tr>
+              <tr class="bg-slate-50">
+                <td class="p-2 font-semibold text-slate-800">VIP & Speaker Catering</td>
+                <td class="p-2 font-bold text-emerald-900 text-right">₱10,000</td>
+                <td class="p-2 text-slate-600">Plated lunch & snacks for 10 guest VIPs</td>
+              </tr>
+              <tr class="bg-[#1B4332] text-white font-bold">
+                <td class="p-2">TOTAL ESTIMATED BUDGET</td>
+                <td class="p-2 text-[#D4AF37] text-right text-xs">₱60,000</td>
+                <td class="p-2 text-slate-200 text-[10px]">Fully funded via registration & CHTM</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="space-y-3 anim-fade-3">
+          <div class="bg-[#1B4332] text-white p-3.5 rounded-xl shadow-lg border border-[#D4AF37]/50 text-center card-hover glow-gold">
+            <span class="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider block">TOTAL INVESTMENT</span>
+            <span class="text-3xl font-serif font-bold text-white block mt-1">₱60,000</span>
+            <span class="text-[11px] text-[#F3DE8A] block mt-1 font-mono">~₱120 per delegate</span>
+          </div>
+          <div class="bg-white border border-slate-200 p-3 rounded-xl shadow-md text-xs card-hover">
+            <span class="font-bold text-emerald-900 block mb-1">Funding Mechanisms:</span>
+            <ul class="text-[11px] text-slate-600 space-y-1 list-disc list-inside">
+              <li>Student Conference Reg Fees</li>
+              <li>CHTM Departmental Support</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: MARKETING -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 9 • Delegate Acquisition</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Marketing & Promotional Strategy</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="bg-white border-2 border-emerald-800/20 rounded-xl p-4 shadow-md card-hover flex flex-col justify-between anim-fade-2">
+          <div>
+            <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs py-1 text-center rounded mb-3">DIGITAL CAMPAIGN</div>
+            <h4 class="font-bold text-xs text-emerald-950 mb-1">📱 Social Media Teasers</h4>
+            <p class="text-[11px] text-slate-600 leading-relaxed">Countdown graphics, speaker spot-highlights, and teaser reels across CHTM Facebook & Instagram starting 10 days prior (Sept 7, 2026).</p>
+          </div>
+          <div class="mt-3 bg-emerald-50 text-emerald-900 text-[10px] font-bold py-1 px-2 rounded text-center border border-emerald-200">
+            Sept 7 – Sept 17, 2026
+          </div>
+        </div>
+
+        <div class="bg-white border-2 border-teal-700/20 rounded-xl p-4 shadow-md card-hover flex flex-col justify-between anim-fade-3">
+          <div>
+            <div class="bg-[#2A9D8F] text-white font-bold text-xs py-1 text-center rounded mb-3">CAMPUS TOUCHPOINTS</div>
+            <h4 class="font-bold text-xs text-teal-950 mb-1">📌 Bulletin Displays</h4>
+            <p class="text-[11px] text-slate-600 leading-relaxed">Full-color promotional posters, QR registration infographics, and program agendas mounted across CHTM bulletin boards and Gym walkways.</p>
+          </div>
+          <div class="mt-3 bg-teal-50 text-teal-900 text-[10px] font-bold py-1 px-2 rounded text-center border border-teal-200">
+            High Foot-Traffic Zones
+          </div>
+        </div>
+
+        <div class="bg-white border-2 border-emerald-800/20 rounded-xl p-4 shadow-md card-hover flex flex-col justify-between anim-fade-4">
+          <div>
+            <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs py-1 text-center rounded mb-3">DIRECT OUTREACH</div>
+            <h4 class="font-bold text-xs text-emerald-950 mb-1">🗣️ Class Caravans</h4>
+            <p class="text-[11px] text-slate-600 leading-relaxed">Synchronized 3-minute promotional walkthroughs across all BSHM and BSTM lecture classes to explain learning value and drive registration.</p>
+          </div>
+          <div class="mt-3 bg-emerald-50 text-emerald-900 text-[10px] font-bold py-1 px-2 rounded text-center border border-emerald-200">
+            500+ BSHM/BSTM Students
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 11: ORGANIZATIONAL ROLES -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 10 • Committee Structure</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Roles & Responsibilities</h2>
+      </div>
+
+      <div class="space-y-2 my-auto text-xs">
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-md card-hover anim-fade-1">
+          <div class="w-48 bg-[#1B4332] text-[#D4AF37] font-bold text-[11px] py-1.5 px-3 rounded-lg text-center flex-shrink-0">
+            🏆 Conference Director
+          </div>
+          <p class="text-[11px] text-slate-700">Leads overall event management, approves presentation decks, enforces time control, and coordinates institutional approvals.</p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-md card-hover anim-fade-2">
+          <div class="w-48 bg-[#2A9D8F] text-white font-bold text-[11px] py-1.5 px-3 rounded-lg text-center flex-shrink-0">
+            🎬 Stage & Program Lead
+          </div>
+          <p class="text-[11px] text-slate-700">Manages main-stage cues, slide transitions, stage timer displays, and floor moderators during plenary Q&A sessions.</p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-md card-hover anim-fade-3">
+          <div class="w-48 bg-[#1B4332] text-[#D4AF37] font-bold text-[11px] py-1.5 px-3 rounded-lg text-center flex-shrink-0">
+            📋 Secretariat & Reg Lead
+          </div>
+          <p class="text-[11px] text-slate-700">Oversees delegate check-in at Gym foyer, physical kit distribution, digital certificate issuance, and feedback consolidation.</p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-md card-hover anim-fade-4">
+          <div class="w-48 bg-[#2A9D8F] text-white font-bold text-[11px] py-1.5 px-3 rounded-lg text-center flex-shrink-0">
+            🤝 Speaker Relations Lead
+          </div>
+          <p class="text-[11px] text-slate-700">Coordinates travel, VIP holding room hospitality, honoraria distribution, and dedicated stage escorting for keynote guests.</p>
+        </div>
+
+        <div class="flex items-center gap-3 bg-white border border-slate-200 p-2 rounded-xl shadow-md card-hover anim-fade-4">
+          <div class="w-48 bg-[#1B4332] text-[#D4AF37] font-bold text-[11px] py-1.5 px-3 rounded-lg text-center flex-shrink-0">
+            🎛️ Technical & AV Lead
+          </div>
+          <p class="text-[11px] text-slate-700">Manages Gymnasium audio levels, main LED backdrop screen inputs, stage lighting controls, and session recording gear.</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 12: VISUAL IDENTITY -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 11 • Branding & Stage Assets</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Visual Identity & Environmental Design</h2>
+      </div>
+
+      <div class="grid grid-cols-4 gap-3 my-2 anim-fade-2">
+        <div class="bg-[#1B4332] text-white p-3 rounded-xl border border-emerald-950 shadow-md card-hover">
+          <div class="font-bold text-xs text-[#D4AF37]">Forest Green</div>
+          <div class="text-[10px] text-slate-300 font-mono">#1B4332</div>
+          <div class="text-[9px] text-slate-200 mt-1">Eco-tourism & primary stage backdrops</div>
+        </div>
+        <div class="bg-[#D4AF37] text-slate-900 p-3 rounded-xl border border-amber-500 shadow-md card-hover">
+          <div class="font-bold text-xs text-slate-950">Harvest Gold</div>
+          <div class="text-[10px] text-slate-800 font-mono">#D4AF37</div>
+          <div class="text-[9px] text-slate-900 mt-1">Culinary heritage & award plaque trims</div>
+        </div>
+        <div class="bg-[#2A9D8F] text-white p-3 rounded-xl border border-teal-800 shadow-md card-hover">
+          <div class="font-bold text-xs text-white">Ocean Aqua</div>
+          <div class="text-[10px] text-slate-200 font-mono">#2A9D8F</div>
+          <div class="text-[9px] text-slate-100 mt-1">Lingayen Gulf coastal management</div>
+        </div>
+        <div class="bg-[#F8F9FA] text-slate-800 p-3 rounded-xl border border-slate-300 shadow-md card-hover">
+          <div class="font-bold text-xs text-slate-900">Soft Sand</div>
+          <div class="text-[10px] text-slate-500 font-mono">#F8F9FA</div>
+          <div class="text-[9px] text-slate-600 mt-1">High-contrast presentation canvas</div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 my-auto anim-fade-3">
+        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover text-xs">
+          <div class="font-bold text-emerald-900 text-xs mb-1">🎨 Emblem & Logo Concept</div>
+          <p class="text-[11px] text-slate-600 leading-snug">Circular crest featuring a green leaf merging with an ocean wave, framing a minimalist golden chef’s toque in the center.</p>
+        </div>
+        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-md card-hover text-xs">
+          <div class="font-bold text-emerald-900 text-xs mb-1">🏛️ Stage & Delegate Collateral</div>
+          <p class="text-[11px] text-slate-600 leading-snug">16:9 LED backdrop screen, acrylic branded podium flanked by native palms, dark green lanyards, color-coded badges & canvas totes.</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 13: LETTER 1 - GYM RESERVATION -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 12 (Part 1) • Administrative Communication</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Letter 1: Gymnasium Reservation & Facility Access</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="bg-white border-2 border-emerald-800/30 rounded-xl p-4 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">TRANSMITTAL DETAILS</div>
+          <div class="space-y-2.5 text-xs text-slate-700">
+            <div><strong class="text-emerald-950 block">Date:</strong> Sept 2, 2026</div>
+            <div><strong class="text-emerald-950 block">To:</strong> Office of VPAA / Facilities Office</div>
+            <div><strong class="text-emerald-950 block">Subject:</strong> Venue & AV Reservation</div>
+            <div><strong class="text-emerald-950 block">Signatory:</strong> Conference Director, PECS 2026</div>
+          </div>
+        </div>
+
+        <div class="col-span-2 bg-white border border-slate-300 rounded-xl p-4 shadow-md card-hover text-xs space-y-2 anim-fade-3">
+          <div class="bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded">OFFICIAL TRANSMITTAL TEXT</div>
+          <p class="font-bold text-emerald-900">Dear Administration,</p>
+          <p class="text-[11px] text-slate-700">The CHTM BAM 205 class respectfully requests permission to reserve and utilize the PHINMA-UPang Gymnasium on September 17, 2026, from 7:00 AM to 5:00 PM (including ingress, sessions, and egress), plus setup extension on Sept 16 until 7:00 PM.</p>
+          <div class="text-[11px] text-slate-700 font-semibold mt-1">Requested Technical & Logistics Support:</div>
+          <ul class="list-decimal list-inside text-[10.5px] text-slate-600 pl-1 space-y-0.5">
+            <li>Main stage projector / LED screen with HDMI connectivity.</li>
+            <li>Sound system: 1 podium mic, 4 wireless handheld mics, and 2 lapel mics.</li>
+            <li>Stage podium, panel chairs, and 500 spectator chairs arranged theater-style.</li>
+            <li>Continuous ventilation, cooling, and lighting support.</li>
+          </ul>
+          <p class="text-[11px] font-semibold text-emerald-950 pt-1">Respectfully yours, [Your Name] — Conference Director, PECS 2026</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 14: LETTER 2 - KEYNOTE SPEAKER INVITATION -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 12 (Part 2) • Administrative Communication</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Letter 2: Official Keynote Speaker Invitation</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="bg-white border-2 border-teal-700/30 rounded-xl p-4 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">INVITATION PARAMETERS</div>
+          <div class="space-y-2.5 text-xs text-slate-700">
+            <div><strong class="text-teal-950 block">Date:</strong> Sept 2, 2026</div>
+            <div><strong class="text-teal-950 block">To:</strong> [Speaker's Name], [Organization]</div>
+            <div><strong class="text-teal-950 block">Session:</strong> 45m Lecture + 15m Floor Q&A</div>
+            <div><strong class="text-teal-950 block">VIP Perks:</strong> Lounge, honoraria, parking & gift basket</div>
+            <div><strong class="text-teal-950 block">Signatory:</strong> Speaker Relations Lead</div>
+          </div>
+        </div>
+
+        <div class="col-span-2 bg-white border border-slate-300 rounded-xl p-4 shadow-md card-hover text-xs space-y-2 anim-fade-3">
+          <div class="bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded">OFFICIAL INVITATION LETTER TEXT</div>
+          <p class="font-bold text-emerald-900">Dear [Speaker's Name],</p>
+          <p class="text-[11px] text-slate-700">Greetings from PHINMA University of Pangasinan!</p>
+          <p class="text-[11px] text-slate-700">The College of Hospitality and Tourism Management cordially invites you to serve as Keynote Speaker for PECS 2026 on Thursday, September 17, 2026, at the PHINMA-UPang Gymnasium.</p>
+          <p class="text-[11px] text-slate-700">Our theme, <em class="text-emerald-900">“Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan,”</em> aims to equip 500+ delegates with actionable sustainable practices. We would be honored by your 45-min talk + 15-min Q&A.</p>
+          <p class="text-[11px] font-semibold text-emerald-950 pt-1">Warm regards, [Your Name] — Speaker Relations Lead, PECS 2026</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 15: LETTER 3 - CLASS EXCUSE -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 12 (Part 3) • Administrative Communication</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Letter 3: Student Class Excuse Authorization</h2>
+      </div>
+
+      <div class="grid grid-cols-3 gap-5 my-auto">
+        <div class="bg-white border-2 border-emerald-800/30 rounded-xl p-4 shadow-md card-hover anim-fade-2">
+          <div class="bg-[#1B4332] text-[#D4AF37] font-bold text-xs px-3 py-1.5 rounded mb-3">EXCUSAL SPECIFICATIONS</div>
+          <div class="space-y-2.5 text-xs text-slate-700">
+            <div><strong class="text-emerald-950 block">Date:</strong> Sept 14, 2026</div>
+            <div><strong class="text-emerald-950 block">To:</strong> CHTM Faculty & Dept Chairs</div>
+            <div><strong class="text-emerald-950 block">Cohort:</strong> All participating BSHM/BSTM students</div>
+            <div><strong class="text-emerald-950 block">Hours:</strong> Sept 17, 2026 (8:00 AM – 4:00 PM)</div>
+            <div><strong class="text-emerald-950 block">Policy:</strong> Students remain accountable for coursework</div>
+          </div>
+        </div>
+
+        <div class="col-span-2 bg-white border border-slate-300 rounded-xl p-4 shadow-md card-hover text-xs space-y-2.5 anim-fade-3">
+          <div class="bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded">OFFICIAL FACULTY TRANSMITTAL TEXT</div>
+          <p class="font-bold text-emerald-900">Dear Professors,</p>
+          <p class="text-[11px] text-slate-700">The organizing committee of PECS 2026 respectfully requests class excuse for participating BSHM and BSTM student organizers and registered delegates on Thursday, September 17, 2026, from 8:00 AM to 4:00 PM.</p>
+          <p class="text-[11px] text-slate-700">These students will be actively managing conference logistics, main-stage operations, secretariat desks, and participating in plenary discussions at the PHINMA-UPang Gymnasium to fulfill BAM 205 course competencies. Participating students remain accountable for all academic responsibilities and missed lectures.</p>
+          <p class="text-[11px] font-semibold text-emerald-950 pt-2">Sincerely, [Your Name] — Conference Director, PECS 2026</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 16: FORM 4 - PARENT CONSENT -->
+    <div class="slide-page w-full h-full p-6 md:p-8 justify-between">
+      <div class="border-b-2 border-[#D4AF37] pb-2 anim-fade-1">
+        <span class="text-[10px] font-bold text-emerald-800 tracking-wider uppercase">Section 12 (Part 4) • Risk Management & Compliance</span>
+        <h2 class="text-2xl font-serif font-bold text-[#1B4332]">Form 4: Parent’s / Guardian’s Official Consent Form</h2>
+      </div>
+
+      <div class="bg-white border-2 border-emerald-900/30 rounded-xl p-4 shadow-md card-hover my-auto text-xs space-y-2 anim-fade-2">
+        <div class="bg-[#1B4332] text-white text-center py-1.5 rounded font-bold text-[11px]">
+          PHINMA UNIVERSITY OF PANGASINAN • CHTM • PARENT’S / GUARDIAN’S CONSENT FORM
+        </div>
+        <p class="text-[11px] text-slate-800 leading-relaxed pt-1">
+          I, <span class="border-b border-slate-400 font-bold px-2">__________________________</span>, parent/guardian of <span class="border-b border-slate-400 font-bold px-2">__________________________</span>, student of BS [HM/TM] Year & Section <span class="border-b border-slate-400 font-bold px-2">______</span>, hereby grant permission for my child to attend and participate in the official campus conference:
+        </p>
+
+        <div class="bg-emerald-50 border border-emerald-200 p-2.5 rounded-lg space-y-1 text-[10.5px]">
+          <div><strong class="text-emerald-900">• Event Name:</strong> PECS 2026: Regional Conference on Sustainable Tourism & Culinary Innovation</div>
+          <div><strong class="text-emerald-900">• Date & Operational Time:</strong> September 17, 2026 | 7:00 AM – 5:00 PM (Ingress, Plenary, Egress)</div>
+          <div><strong class="text-emerald-900">• Venue:</strong> PHINMA-University of Pangasinan Gymnasium, Dagupan City</div>
+        </div>
+
+        <p class="text-[10px] italic text-slate-600">
+          I understand that this event fulfills academic criteria for BAM 205 (MICE) and that university safety and hall protocols will be strictly maintained by faculty supervisors.
+        </p>
+
+        <div class="pt-2 flex justify-between items-end text-[11px] text-slate-800 border-t border-slate-200">
+          <div>
+            <div class="border-b border-slate-400 w-64 mb-1"></div>
+            <span class="font-bold">Parent / Guardian Signature over Printed Name</span>
+          </div>
+          <div>
+            <div class="border-b border-slate-400 w-36 mb-1"></div>
+            <span class="font-bold">Date Signed</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-[11px] text-slate-500 border-t border-slate-200 pt-2 flex justify-between">
+        <span>PHINMA University of Pangasinan • CHTM</span>
+        <span>PECS 2026 Conference Proposal</span>
+      </div>
+    </div>
+
+    <!-- SLIDE 17: CONCLUSION -->
+    <div class="slide-page w-full h-full bg-[#102A1F] text-white p-8 md:p-12 justify-between relative overflow-hidden">
+      <div class="absolute left-0 top-0 bottom-0 w-3 bg-[#D4AF37]"></div>
+      
+      <div class="anim-fade-1">
+        <div class="inline-block bg-[#2A9D8F] text-white font-bold text-xs px-3 py-1 rounded-md tracking-wider uppercase mb-3 shadow-md">
+          CONCLUSION & STRATEGIC IMPACT
+        </div>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-[#D4AF37]">Ready to Deliver an Exemplary MICE Experience</h2>
+        <p class="text-sm md:text-base font-serif italic text-slate-200 mt-2">
+          PECS 2026 bridges academic rigor with regional hospitality excellence, empowering BAM 205 students with real-world conference leadership.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 gap-4 my-4 anim-fade-2">
+        <div class="bg-[#1B4332] border border-[#D4AF37]/50 p-4 rounded-xl shadow-lg card-hover glow-gold">
+          <div class="text-[#D4AF37] font-bold text-xs uppercase mb-1">🏛️ Institutional Value</div>
+          <p class="text-[11px] text-slate-300">Positions UPang CHTM as a regional center of excellence for eco-tourism research and culinary heritage.</p>
+        </div>
+        <div class="bg-[#1B4332] border border-[#D4AF37]/50 p-4 rounded-xl shadow-lg card-hover">
+          <div class="text-[#D4AF37] font-bold text-xs uppercase mb-1">📈 Student Competencies</div>
+          <p class="text-[11px] text-slate-300">Provides practical mastery in finance, AV staging, speaker handling, and secretariat workflows.</p>
+        </div>
+        <div class="bg-[#1B4332] border border-[#D4AF37]/50 p-4 rounded-xl shadow-lg card-hover">
+          <div class="text-[#D4AF37] font-bold text-xs uppercase mb-1">🤝 Community Impact</div>
+          <p class="text-[11px] text-slate-300">Creates lasting collaboration between academia, local government units (LGUs), and hospitality leaders.</p>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-emerald-800/80 flex justify-between items-center text-xs text-slate-300 anim-fade-3">
+        <div>Thank you! We look forward to your feedback and formal approval.</div>
+        <div class="text-amber-400 font-semibold flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          PECS 2026 Organizing Committee
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Thumbnails / Quick Jump Navigation -->
+  <div class="w-full max-w-5xl mt-3 flex items-center justify-center gap-1.5 overflow-x-auto py-1.5">
+    <div id="thumbContainer" class="flex gap-1.5">
+      <!-- Generated via JS -->
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide-page');
+    const totalSlides = slides.length;
+    const indicator = document.getElementById('slideIndicator');
+    const progressBar = document.getElementById('progressBar');
+    const thumbContainer = document.getElementById('thumbContainer');
+    let autoPlayTimer = null;
+    let isAutoPlaying = false;
+
+    function initThumbs() {
+      for (let i = 0; i < totalSlides; i++) {
+        const btn = document.createElement('button');
+        btn.className = `w-7 h-7 text-xs font-bold rounded-lg border transition-all ${i === 0 ? 'bg-amber-400 text-slate-900 border-amber-300' : 'bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700'}`;
+        btn.innerText = i + 1;
+        btn.onclick = () => goToSlide(i);
+        thumbContainer.appendChild(btn);
+      }
+    }
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentSlide = index;
+
+      slides.forEach((s, idx) => {
+        if (idx === currentSlide) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+
+      indicator.innerText = `${currentSlide + 1} / ${totalSlides}`;
+      
+      const pct = ((currentSlide + 1) / totalSlides) * 100;
+      progressBar.style.width = `${pct}%`;
+
+      const thumbBtns = thumbContainer.querySelectorAll('button');
+      thumbBtns.forEach((tb, idx) => {
+        if (idx === currentSlide) {
+          tb.className = 'w-7 h-7 text-xs font-bold rounded-lg border transition-all bg-amber-400 text-slate-900 border-amber-300 shadow-md scale-110';
+        } else {
+          tb.className = 'w-7 h-7 text-xs font-bold rounded-lg border transition-all bg-slate-800 text-slate-400 border-slate-700 hover:bg-slate-700';
+        }
+      });
+
+      document.getElementById('prevBtn').disabled = currentSlide === 0;
+      document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+    }
+
+    function changeSlide(step) {
+      showSlide(currentSlide + step);
+    }
+
+    function goToSlide(index) {
+      showSlide(index);
+    }
+
+    function toggleAutoPlay() {
+      if (isAutoPlaying) {
+        clearInterval(autoPlayTimer);
+        isAutoPlaying = false;
+        document.getElementById('playIcon').innerText = '▶';
+        document.getElementById('playText').innerText = 'Auto Play';
+        document.getElementById('autoPlayBtn').classList.remove('bg-emerald-700', 'text-white');
+      } else {
+        isAutoPlaying = true;
+        document.getElementById('playIcon').innerText = '⏸';
+        document.getElementById('playText').innerText = 'Pause';
+        document.getElementById('autoPlayBtn').classList.add('bg-emerald-700', 'text-white');
+        
+        autoPlayTimer = setInterval(() => {
+          if (currentSlide >= totalSlides - 1) {
+            showSlide(0);
+          } else {
+            changeSlide(1);
+          }
+        }, 5000);
+      }
+    }
+
+    function toggleFullscreen() {
+      const elem = document.getElementById('slideContainer');
+      if (!document.fullscreenElement) {
+        elem.requestFullscreen().catch(err => alert(`Fullscreen error: ${err.message}`));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+        changeSlide(1);
+      } else if (e.key === 'ArrowLeft') {
+        changeSlide(-1);
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullscreen();
+      } else if (e.key === 'p' || e.key === 'P') {
+        toggleAutoPlay();
+      }
+    });
+
+    initThumbs();
+    showSlide(0);
+  </script>
+</body>
+</html>
