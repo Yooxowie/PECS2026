@@ -158,9 +158,9 @@ def create_presentation():
     div.line.fill.background()
 
     card_data = [
-        ("📅 DATE & TIME", "Thursday, September 17, 2026\n8:30 AM – 3:30 PM (7-Hour Program)"),
+        ("📅 DATE & TIME", "Thursday, September 17, 2026\n8:00 AM – 12:00 NN (Morning Plenary)"),
         ("📍 VENUE", "PHINMA-University of Pangasinan\nGymnasium, Dagupan City"),
-        ("👥 AUDIENCE", "500+ Seated Delegates\nBSHM, BSTM, Faculty & Leaders")
+        ("👥 AUDIENCE", "500+ Seated Delegates\nBSHM, BSTM, Faculty & VIPs")
     ]
     for i, (head, sub) in enumerate(card_data):
         c_left = Inches(1.2 + i * 3.7)
@@ -266,9 +266,9 @@ def create_presentation():
     rtf.word_wrap = True
 
     right_items = [
-        ("🌿 Eco-Haven Focus", "Addressing coastal environmental preservation, carrying capacity, and eco-tourism frameworks in Lingayen Gulf and Pangasinan municipalities."),
-        ("🍲 Heritage Culinary Innovation", "Safeguarding authentic regional gastronomic treasures (Bangus, Alaminos Longganisa, Kakanin) while integrating modern culinary and hospitality techniques."),
-        ("🎓 Academic & Industry Synergy", "Bridging classroom theoretical knowledge with live industry insights, research presentations, and municipal tourism governance.")
+        ("🌿 Coastal Eco-Tourism Frameworks", "Keynote by Ms. Maria Luisa A. Elduayan on carrying capacity and shoreline sustainability in Pangasinan coastal destinations."),
+        ("🍲 Gastronomy & Culinary Heritage", "Keynote by Felice Prudente Sta. Maria on preserving authentic flavor profiles and integrating them into modern tourism."),
+        ("🎓 Interactive Synthesis & Dialogue", "Multi-stakeholder Q&A, faculty synthesis connecting food systems with eco-tourism, and student networking.")
     ]
     for i, (title, desc) in enumerate(right_items):
         p = rtf.paragraphs[0] if i == 0 else rtf.add_paragraph()
@@ -320,9 +320,9 @@ def create_presentation():
     th_p2.space_before = Pt(3)
 
     pillars = [
-        ("01. PLENARY KEYNOTES", "Expert Dialogues", "Gathering municipal tourism officers, resort general managers, and local culinary historians to present frameworks on coastal carrying capacity and indigenous gastronomic preservation.", DARK_GREEN),
-        ("02. RESEARCH COLLOQUIUM", "Student Innovation", "Oral presentations of 4 shortlisted student research papers addressing empirical resort models, community eco-tourism, and sustainable heritage practices.", OCEAN_AQUA),
-        ("03. MULTI-STAKEHOLDER Q&A", "Open Academic Forum", "Direct interactive floor microphone sessions bridging BSHM/BSTM students with practitioners, fostering active inquiry and policy recommendations.", DARK_GREEN)
+        ("01. PLENARY KEYNOTE 1", "Ms. Maria Luisa A. Elduayan", "“Protecting Pangasinan’s Shorelines: Sustainable Eco-Tourism Strategies and Carrying Capacity in Coastal Destinations”", DARK_GREEN),
+        ("02. PLENARY KEYNOTE 2", "Felice Prudente Sta. Maria", "“From Coastal Waters to Heritage Plates: Preserving Pangasinan’s Culinary Identity in Modern Gastronomy Tourism”", OCEAN_AQUA),
+        ("03. SYNTHESIS & DIALOGUE", "CHTM Faculty & Delegates", "Interactive floor Q&A open forum, synthesis session connecting food systems, and formal recognition ceremony.", DARK_GREEN)
     ]
 
     for i, (p_title, p_sub, p_body, color) in enumerate(pillars):
@@ -386,7 +386,7 @@ def create_presentation():
     p_data = [
         ("👤 Delegate Profile:", "Undergraduate BSHM (Hospitality) and BSTM (Tourism) students, student researchers, and CHTM academic faculty."),
         ("📊 Capacity & Volume:", "500+ Seated Delegates inside the UPang Gymnasium main floor."),
-        ("🎯 Critical Needs & Expectations:", "• Practical industry insights beyond textbooks\n• Peer research validation & academic exchange\n• Professional networking opportunities\n• Complete conference kits (ID badge, notepad, program, bag, e-certificate)")
+        ("🎯 Critical Needs & Expectations:", "• Direct learning from national & regional tourism experts\n• Peer academic interaction & Q&A participation\n• Complete conference kits (ID badge, notepad, program, tote bag, e-certificate)")
     ]
     for i, (l, v) in enumerate(p_data):
         p = ptf.paragraphs[0] if i == 0 else ptf.add_paragraph()
@@ -422,9 +422,9 @@ def create_presentation():
     stf.word_wrap = True
 
     s_data = [
-        ("🎖️ VIP & Speaker Profile:", "Municipal Tourism Officers (MTOs), Resort General Managers, Local Culinary Historians, and Senior Faculty Reactors."),
-        ("📊 Capacity & Volume:", "8–10 Invited Plenary Keynote Speakers, Panelists, and Reactors."),
-        ("🎯 Critical Needs & Expectations:", "• Strict program pacing and structured timing\n• Clear stage AV, roving wireless mics, and confidence monitors\n• Dedicated VIP holding lounge with private plated catering\n• Formal honoraria, local tokens of appreciation, and plaques")
+        ("🎖️ Featured Plenary Speakers:", "Ms. Maria Luisa A. Elduayan (Coastal Eco-Tourism) and Felice Prudente Sta. Maria (Culinary Heritage Historian)."),
+        ("📊 Panel & Leadership:", "Event Chairpersons, CHTM Leads, Faculty Moderators, and Reactor Panel."),
+        ("🎯 Critical Needs & Expectations:", "• Strict 40-min talk + 25-min interactive Q&A execution\n• Stage AV, podium mic, confidence monitors & roving floor mics\n• Dedicated VIP holding lounge, plated catering & honoraria")
     ]
     for i, (l, v) in enumerate(s_data):
         p = stf.paragraphs[0] if i == 0 else stf.add_paragraph()
@@ -452,11 +452,11 @@ def create_presentation():
     add_header(s5, "SMART Event Objectives", "Section 5 • Measurable Goals & Outcomes")
 
     smart_items = [
-        ("S", "SPECIFIC", "Host a regional academic conference featuring 3 keynote sessions and 4 student research panel presentations on Pangasinan tourism development and culinary heritage.", DARK_GREEN),
-        ("M", "MEASURABLE", "Achieve attendance of at least 500 registered delegates and collect completed session feedback forms from at least 90% of attendees.", OCEAN_AQUA),
-        ("A", "ACHIEVABLE", "Secure regional tourism officials and faculty experts as session speakers and panel reactors using the university's central facility.", DARK_GREEN),
-        ("R", "RELEVANT", "Fulfill BAM 205 conference management competencies including large-scale program structuring, speaker management, main-stage AV logistics, and delegate registration.", OCEAN_AQUA),
-        ("T", "TIME-BOUND", "Execute the complete plenary schedule, panel sessions, open forum, and awarding ceremony within a 7-hour operational timeframe on September 17, 2026.", DARK_GREEN)
+        ("S", "SPECIFIC", "Host a high-impact regional conference featuring 2 master keynotes (Ms. Maria Luisa A. Elduayan & Felice Prudente Sta. Maria) and an interactive synthesis session.", DARK_GREEN),
+        ("M", "MEASURABLE", "Achieve attendance of 500+ registered delegates and obtain completed digital feedback forms from at least 90% of attendees.", OCEAN_AQUA),
+        ("A", "ACHIEVABLE", "Secure esteemed regional leaders and renowned culinary authors utilizing the university's central gymnasium facility.", DARK_GREEN),
+        ("R", "RELEVANT", "Fulfill BAM 205 conference management competencies including program structuring, AV staging, speaker relations, and delegate coordination.", OCEAN_AQUA),
+        ("T", "TIME-BOUND", "Execute the entire 11-segment plenary program smoothly from 8:00 AM to 12:00 NN on Thursday, September 17, 2026.", DARK_GREEN)
     ]
 
     card_height = Inches(0.96)
@@ -523,7 +523,7 @@ def create_presentation():
 
     v_details = [
         ("🗓️ Proposed Date:", "Thursday, September 17, 2026"),
-        ("⏰ Timeframe:", "8:30 AM – 3:30 PM (7 Hours Operational)"),
+        ("⏰ Operational Hours:", "8:00 AM – 12:00 NN (Morning Plenary)"),
         ("📍 Official Venue:", "PHINMA University of Pangasinan Gymnasium"),
         ("📌 Location:", "Arellano Street, Dagupan City, Pangasinan"),
         ("🏛️ Facility Type:", "University Indoor Sports & Assembly Complex")
@@ -573,38 +573,38 @@ def create_presentation():
         p2.space_before = Pt(6)
 
     # ==========================================
-    # SLIDE 7: MORNING PLENARY PROGRAM FLOW
+    # SLIDE 7: UPDATED PROGRAM FLOW (PART 1: 8:00 AM - 10:05 AM)
     # ==========================================
     s7 = prs.slides.add_slide(blank_slide_layout)
     set_slide_bg(s7)
     apply_slide_transition(s7, "push")
-    add_header(s7, "Program Flow: Morning Plenary Sessions", "Section 7 (Part 1) • Schedule of Activities (08:30 AM – 12:00 PM)")
+    add_header(s7, "Program Flow: Part 1 — Opening & Keynote 1", "Section 7 (Part 1) • Schedule of Activities (08:00 AM – 10:05 AM)")
 
-    rows = 6
-    cols = 4
+    rows = 7
+    cols = 3
     left = Inches(0.8)
-    top = Inches(1.5)
+    top = Inches(1.45)
     width = Inches(11.733)
-    height = Inches(5.2)
+    height = Inches(5.3)
 
     table_shape = s7.shapes.add_table(rows, cols, left, top, width, height)
     table = table_shape.table
 
-    table.columns[0].width = Inches(2.0)
-    table.columns[1].width = Inches(3.2)
-    table.columns[2].width = Inches(4.2)
-    table.columns[3].width = Inches(2.333)
+    table.columns[0].width = Inches(2.2)
+    table.columns[1].width = Inches(6.5)
+    table.columns[2].width = Inches(3.033)
 
-    morning_data = [
-        ["Time", "Session Title", "Description / Content", "Person / Group in Charge"],
-        ["08:30 AM – 09:00 AM", "Delegate Registration & Kit Distribution", "Sign-in at Gym foyer registration desks; distribution of conference badges, notepad kits, and session programs.", "Secretariat & Registration Team"],
-        ["09:00 AM – 09:30 AM", "Opening Plenary & Welcome Address", "Doxology, National Anthem, and Opening Remarks by CHTM Leadership.", "Conference Master of Ceremonies"],
-        ["09:30 AM – 10:30 AM", "Keynote 1: Coastal Eco-Tourism Frameworks", "Presentation on sustainable destination management across Pangasinan municipalities.", "Invited Municipal Tourism Officer"],
-        ["10:30 AM – 11:30 AM", "Keynote 2: Preserving Heritage Flavor Profiles", "Industry talk on preserving regional culinary recipes and integrating them into modern hospitality.", "Guest Chef / Culinary Historian"],
-        ["11:30 AM – 12:00 PM", "Open Forum & Delegate Q&A", "Floor microphones open for delegate inquiries directed to Keynote Speakers 1 and 2.", "Stage Moderator"]
+    part1_data = [
+        ["Time", "Activity / Session Title", "Facilitator / Lead"],
+        ["8:00 AM – 8:30 AM", "On-Site Check-In & Name Tag Distribution\nRegistration desks open at Gym foyer with kit issuance.", "Registration Committee"],
+        ["8:30 AM – 8:40 AM", "Doxology & National Anthem\nFormal invocation and Philippine National Anthem.", "Program Committee"],
+        ["8:40 AM – 8:50 AM", "Welcome Address\nOpening institutional remarks welcoming delegates and guests.", "Event Chairperson / CHTM Lead"],
+        ["8:50 AM – 9:00 AM", "Opening Remarks & Speaker Introduction\nContextual overview of PECS 2026 & formal speaker citation.", "Master of Ceremonies"],
+        ["9:00 AM – 9:40 AM", "Keynote 1: “Protecting Pangasinan’s Shorelines: Sustainable Eco-Tourism Strategies and Carrying Capacity in Coastal Destinations”", "Ms. Maria Luisa A. Elduayan\n(Provincial Tourism Officer)"],
+        ["9:40 AM – 10:05 AM", "Interactive Q&A Session\nFloor microphones open for delegate inquiries to Keynote 1.", "Moderator & Delegates"]
     ]
 
-    for r_idx, row_content in enumerate(morning_data):
+    for r_idx, row_content in enumerate(part1_data):
         for c_idx, cell_value in enumerate(row_content):
             cell = table.cell(r_idx, c_idx)
             cell.text = cell_value
@@ -620,39 +620,41 @@ def create_presentation():
             else:
                 cell.fill.solid()
                 cell.fill.fore_color.rgb = WHITE if r_idx % 2 == 1 else SOFT_SAND
-                p.font.size = Pt(10)
+                p.font.size = Pt(9.5)
                 p.font.color.rgb = TEXT_DARK
                 if c_idx == 0:
                     p.font.bold = True
                     p.font.color.rgb = DARK_GREEN
-                elif c_idx == 1:
+                elif c_idx == 1 and r_idx == 5:
                     p.font.bold = True
+                    p.font.color.rgb = DARK_GREEN
 
     # ==========================================
-    # SLIDE 8: AFTERNOON COLLOQUIUM PROGRAM FLOW
+    # SLIDE 8: UPDATED PROGRAM FLOW (PART 2: 10:05 AM - 12:00 NN)
     # ==========================================
     s8 = prs.slides.add_slide(blank_slide_layout)
     set_slide_bg(s8)
     apply_slide_transition(s8, "push")
-    add_header(s8, "Program Flow: Afternoon Colloquium & Closing", "Section 7 (Part 2) • Schedule of Activities (12:00 PM – 03:30 PM)")
+    add_header(s8, "Program Flow: Part 2 — Keynote 2, Synthesis & Closing", "Section 7 (Part 2) • Schedule of Activities (10:05 AM – 12:00 NN)")
 
-    table_shape_aft = s8.shapes.add_table(5, 4, left, top, width, Inches(4.3))
+    rows_aft = 6
+    table_shape_aft = s8.shapes.add_table(rows_aft, cols, left, top, width, Inches(4.5))
     table_aft = table_shape_aft.table
 
-    table_aft.columns[0].width = Inches(2.0)
-    table_aft.columns[1].width = Inches(3.2)
-    table_aft.columns[2].width = Inches(4.2)
-    table_aft.columns[3].width = Inches(2.333)
+    table_aft.columns[0].width = Inches(2.2)
+    table_aft.columns[1].width = Inches(6.5)
+    table_aft.columns[2].width = Inches(3.033)
 
-    aft_data = [
-        ["Time", "Session Title", "Description / Content", "Person / Group in Charge"],
-        ["12:00 PM – 01:00 PM", "Lunch Break & Networking", "Networking lunch for delegates; VIP dining in the designated Gym VIP Lounge.", "Logistics & Catering Team"],
-        ["01:00 PM – 02:30 PM", "Panel Session: Student Research Colloquium", "Oral presentations of 4 selected student research papers on local resort models and eco-tourism.", "Student Presenters & Reactor Panel"],
-        ["02:30 PM – 03:15 PM", "Awarding of Best Paper & Certificates", "Conferment of Plaque of Appreciation to speakers and Best Student Research Presentation.", "Conference Director & CHTM Dean"],
-        ["03:15 PM – 03:30 PM", "Closing Remarks & Photo Session", "Formal adjournment of PECS 2026 Conference followed by group photo on the main stage.", "Conference Director"]
+    part2_data = [
+        ["Time", "Activity / Session Title", "Facilitator / Lead"],
+        ["10:05 AM – 10:45 AM", "Keynote 2: “From Coastal Waters to Heritage Plates: Preserving Pangasinan’s Culinary Identity in Modern Gastronomy Tourism”", "Felice Prudente Sta. Maria\n(Culinary Historian & Author)"],
+        ["10:45 AM – 11:10 AM", "Interactive Q&A Session\nOpen floor exchange and discussions with Keynote 2.", "Moderator & Delegates"],
+        ["11:10 AM – 11:40 AM", "Synthesis Session: Aligning Eco-Tourism with Local Food Systems\nConsolidating policy, hospitality practices, and research outputs.", "CHTM Faculty Moderator"],
+        ["11:40 AM – 11:50 AM", "Presentation of Tokens & Certificates to Speakers\nConferment of Plaques of Appreciation and gift baskets.", "Event Chairperson"],
+        ["11:50 AM – 12:00 NN", "Closing Remarks & Official Group Photo\nFormal adjournment of PECS 2026 followed by stage photo.", "Organizers & Attendees"]
     ]
 
-    for r_idx, row_content in enumerate(aft_data):
+    for r_idx, row_content in enumerate(part2_data):
         for c_idx, cell_value in enumerate(row_content):
             cell = table_aft.cell(r_idx, c_idx)
             cell.text = cell_value
@@ -668,28 +670,29 @@ def create_presentation():
             else:
                 cell.fill.solid()
                 cell.fill.fore_color.rgb = WHITE if r_idx % 2 == 1 else SOFT_SAND
-                p.font.size = Pt(10)
+                p.font.size = Pt(9.5)
                 p.font.color.rgb = TEXT_DARK
                 if c_idx == 0:
                     p.font.bold = True
                     p.font.color.rgb = DARK_GREEN
-                elif c_idx == 1:
+                elif c_idx == 1 and r_idx == 1:
                     p.font.bold = True
+                    p.font.color.rgb = DARK_GREEN
 
-    create_card(s8, Inches(0.8), Inches(6.0), Inches(11.733), Inches(0.85), bg_color=PILL_BG, border_color=OCEAN_AQUA)
-    tb_n = s8.shapes.add_textbox(Inches(1.0), Inches(6.05), Inches(11.3), Inches(0.75))
+    create_card(s8, Inches(0.8), Inches(6.15), Inches(11.733), Inches(0.75), bg_color=PILL_BG, border_color=OCEAN_AQUA)
+    tb_n = s8.shapes.add_textbox(Inches(1.0), Inches(6.18), Inches(11.3), Inches(0.68))
     ntf = tb_n.text_frame
     ntf.word_wrap = True
     np = ntf.paragraphs[0]
     np.text = "⏱️ Time Management Protocol:"
     np.font.bold = True
-    np.font.size = Pt(11)
+    np.font.size = Pt(10.5)
     np.font.color.rgb = DARK_GREEN
     np.font.name = "Arial"
 
     np2 = ntf.add_paragraph()
-    np2.text = "Each student presenter is allocated 15 minutes presentation + 5 minutes reactor critique. Stage timer monitors will be visible to enforce punctual program execution."
-    np2.font.size = Pt(10)
+    np2.text = "Each keynote speaker has 40 minutes presentation + 25 minutes interactive Q&A. Floor microphones and stage countdown monitors ensure strict adherence to the 12:00 NN adjournment."
+    np2.font.size = Pt(9.5)
     np2.font.color.rgb = TEXT_DARK
     np2.font.name = "Arial"
 
@@ -713,8 +716,8 @@ def create_presentation():
         ["Keynote Speaker Honoraria & Tokens", "₱15,000", "Tokens of appreciation, local produce gift baskets, and honoraria for guest speakers."],
         ["Delegate Kits & Printed Materials", "₱20,000", "Lanyards, printed ID badges, notepad kits, pens, and certificates for 500 delegates."],
         ["Venue Audio-Visual & Stage Framing", "₱15,000", "Gymnasium stage LED wall/projector backdrop, wireless lapels, roving floor mics, and podium setup."],
-        ["VIP & Speaker Catering", "₱10,000", "Plated lunch and AM/PM snacks for invited guest speakers and panel reactors."],
-        ["TOTAL ESTIMATED BUDGET", "₱60,000", "Complete budget covering all 500 delegates and 10 VIP speakers."]
+        ["VIP & Speaker Catering", "₱10,000", "Plated lunch and AM snacks for invited guest speakers and panel moderators."],
+        ["TOTAL ESTIMATED BUDGET", "₱60,000", "Complete budget covering all 500 delegates and VIP speakers."]
     ]
 
     for r_idx, row_content in enumerate(budget_data):
@@ -768,7 +771,7 @@ def create_presentation():
     tp2.space_before = Pt(4)
     
     tp3 = tot_tf.add_paragraph()
-    tp3.text = "Cost per delegate: ~₱120 (Highly cost-efficient academic staging)"
+    tp3.text = "Cost per delegate: ~₱120 (Cost-efficient academic staging)"
     tp3.font.size = Pt(10)
     tp3.font.color.rgb = LIGHT_GOLD
     tp3.font.name = "Arial"
@@ -802,7 +805,7 @@ def create_presentation():
     add_header(s10, "Marketing & Promotional Strategy", "Section 9 • Delegate Acquisition & Awareness")
 
     mkt_cards = [
-        ("📱 Social Media Teaser Campaign", "Digital Engagement", "Launch targeted countdown graphics and keynote speaker spot-highlights across CHTM departmental Facebook & Instagram pages starting September 7, 2026 (10 days prior).", "Timeline: Sept 7 – Sept 17, 2026", DARK_GREEN),
+        ("📱 Social Media Teaser Campaign", "Digital Engagement", "Launch targeted countdown graphics and keynote speaker spot-highlights (Ms. Elduayan & Ms. Sta. Maria) across CHTM Facebook & Instagram starting Sept 7, 2026.", "Timeline: Sept 7 – Sept 17, 2026", DARK_GREEN),
         ("📌 Campus Bulletin Displays", "Physical Touchpoints", "Mount full-color promotional posters, QR code registration infographics, and program agendas across CHTM bulletin boards and high-traffic gym walkways.", "Coverage: High-foot-traffic halls", OCEAN_AQUA),
         ("🗣️ Class-to-Class Caravan", "Direct Outreach", "Conduct synchronized 3-minute promotional walkthroughs across all BSHM and BSTM lecture classes to explain conference learning outcomes and drive registration.", "Audience: 500+ BSHM/BSTM Students", DARK_GREEN)
     ]
@@ -866,7 +869,7 @@ def create_presentation():
         ("🏆 Conference Director", "Executive Leadership", "Leads overall event management, approves presentation decks, enforces strict time control, and coordinates institutional approvals with CHTM Administration."),
         ("🎬 Stage & Program Lead", "Production Control", "Manages main-stage cues, slide transitions, stage timer displays, audio prompts, and coordinates floor moderators during plenary Q&A sessions."),
         ("📋 Secretariat & Registration Lead", "Delegate Experience", "Oversees delegate check-in at Gym foyer desks, physical kit distribution, issuance of digital certificates, and digital feedback form consolidation."),
-        ("🤝 Speaker Relations Lead", "VIP Management", "Coordinates travel logistics, VIP holding room hospitality, honoraria distribution, and dedicated stage escorting for keynote speakers and panelists."),
+        ("🤝 Speaker Relations Lead", "VIP Management", "Coordinates travel logistics, VIP holding room hospitality, honoraria distribution, and dedicated stage escorting for keynote speakers."),
         ("🎛️ Technical & AV Lead", "Infrastructure & Tech", "Manages Gymnasium audio levels, main LED backdrop screen inputs, stage lighting controls, livestreaming, and session recording gear.")
     ]
 
@@ -1146,8 +1149,8 @@ def create_presentation():
 
     l2_meta = [
         ("📅 Date of Invitation:", "September 2, 2026"),
-        ("📬 Target Honoree:", "[Speaker's Name / Title], [Organization Name]"),
-        ("⏱️ Session Allocation:", "45-Minute Plenary Presentation + 15-Minute Open Floor Q&A"),
+        ("📬 Target Honorees:", "Ms. Maria Luisa A. Elduayan & Felice Prudente Sta. Maria"),
+        ("⏱️ Session Allocation:", "40-Minute Plenary Presentation + 25-Minute Interactive Q&A"),
         ("🎁 VIP Provision:", "Private holding lounge, plated catering, formal honoraria, parking pass & local token basket"),
         ("✍️ Signatory Authority:", "Speaker Relations Lead, PECS 2026")
     ]
@@ -1184,7 +1187,7 @@ def create_presentation():
     l2_btf.word_wrap = True
 
     p = l2_btf.paragraphs[0]
-    p.text = "Dear [Speaker's Name],"
+    p.text = "Dear [Speaker's Name / Esteemed Keynote Guest],"
     p.font.bold = True
     p.font.size = Pt(11)
     p.font.color.rgb = DARK_GREEN
@@ -1198,7 +1201,7 @@ def create_presentation():
     p_body1.space_before = Pt(4)
 
     p_body2 = l2_btf.add_paragraph()
-    p_body2.text = "Our conference theme, “Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan,” aims to equip 500+ undergraduate delegates with actionable strategies for sustainable hospitality growth. Given your distinguished expertise, we would be honored to have you deliver a 45-minute presentation followed by a 15-minute open Q&A session."
+    p_body2.text = "Our conference theme, “Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan,” aims to equip 500+ undergraduate delegates with actionable strategies for sustainable hospitality growth. Given your distinguished expertise, we would be honored to have you deliver a 40-minute presentation followed by a 25-minute interactive Q&A session."
     p_body2.font.size = Pt(10)
     p_body2.font.color.rgb = TEXT_DARK
     p_body2.font.name = "Arial"
@@ -1239,7 +1242,7 @@ def create_presentation():
         ("📅 Date of Notice:", "September 14, 2026"),
         ("📬 Recipients:", "CHTM Faculty Members and Department Chairs"),
         ("👥 Covered Cohort:", "All participating BSHM & BSTM student organizers and registered delegates"),
-        ("⏰ Excusal Duration:", "Thursday, September 17, 2026 (8:00 AM – 4:00 PM)"),
+        ("⏰ Excusal Duration:", "Thursday, September 17, 2026 (7:30 AM – 1:00 PM)"),
         ("⚖️ Academic Policy:", "Students remain accountable for all missed lectures and course deliverables.")
     ]
     for i, (l, v) in enumerate(l3_meta):
@@ -1282,7 +1285,7 @@ def create_presentation():
     p.font.name = "Georgia"
 
     p_body1 = l3_btf.add_paragraph()
-    p_body1.text = "The organizing committee of PECS 2026 respectfully requests class excuse for participating BSHM and BSTM student organizers and registered delegates on Thursday, September 17, 2026, from 8:00 AM to 4:00 PM."
+    p_body1.text = "The organizing committee of PECS 2026 respectfully requests class excuse for participating BSHM and BSTM student organizers and registered delegates on Thursday, September 17, 2026, from 7:30 AM to 1:00 PM."
     p_body1.font.size = Pt(10.5)
     p_body1.font.color.rgb = TEXT_DARK
     p_body1.font.name = "Arial"
@@ -1344,7 +1347,7 @@ def create_presentation():
 
     bullet_items = [
         ("• Event Name:", "PECS 2026: Regional Conference on Sustainable Tourism & Culinary Innovation"),
-        ("• Date & Operational Time:", "September 17, 2026 | 7:00 AM – 5:00 PM (Including ingress, plenary sessions, and egress)"),
+        ("• Date & Operational Time:", "September 17, 2026 | 7:00 AM – 1:00 PM (Including ingress, plenary sessions, and egress)"),
         ("• Official Venue:", "PHINMA-University of Pangasinan Gymnasium, Arellano Street, Dagupan City")
     ]
     for b_label, b_val in bullet_items:
@@ -1407,7 +1410,7 @@ def create_presentation():
     ep1.font.name = "Georgia"
 
     ep2 = etf2.add_paragraph()
-    ep2.text = "PECS 2026 bridges academic rigor with regional hospitality excellence, providing BAM 205 students with hands-on event execution mastery."
+    ep2.text = "PECS 2026 bridges academic rigor with regional hospitality excellence, empowering BAM 205 students with hands-on event execution mastery."
     ep2.font.size = Pt(14)
     ep2.font.color.rgb = SOFT_SAND
     ep2.font.name = "Georgia"
@@ -1416,7 +1419,7 @@ def create_presentation():
     concl_data = [
         ("🏛️ Institutional Impact", "Positions PHINMA University of Pangasinan CHTM as a regional center of excellence for eco-tourism research and culinary heritage preservation."),
         ("📈 Student Learning Outcomes", "Demonstrates end-to-end conference management competencies: finance, logistics, AV production, speaker hospitality, and secretariat workflows."),
-        ("🤝 Community & Industry Link", "Creates actionable partnerships between academia, local government units (LGUs), municipal tourism officers, and regional hospitality stakeholders.")
+        ("🤝 Community & Industry Link", "Creates actionable partnerships between academia, local government units (LGUs), provincial tourism leaders, and cultural authors.")
     ]
 
     for i, (head, text) in enumerate(concl_data):
@@ -1454,13 +1457,12 @@ def create_presentation():
     cfp.font.color.rgb = WHITE
     cfp.font.name = "Georgia"
 
-    # Save presentation
+    # Save presentation to multiple target locations
     paths = [
+        r"C:\Users\Admin\.gemini\antigravity\scratch\PECS2026\PECS_2026_Animated_Presentation.pptx",
         r"C:\Users\Admin\.gemini\antigravity\scratch\PECS_2026_Animated_Presentation.pptx",
         r"C:\Users\Admin\Downloads\PECS_2026_Animated_Presentation.pptx",
-        r"C:\Users\Admin\Documents\PECS_2026_Animated_Presentation.pptx",
-        r"C:\Users\Admin\Downloads\PECS_2026_Full_Proposal_with_Letters.pptx",
-        r"C:\Users\Admin\.gemini\antigravity\scratch\PECS_2026_Full_Proposal_with_Letters.pptx"
+        r"C:\Users\Admin\Documents\PECS_2026_Animated_Presentation.pptx"
     ]
     for p_out in paths:
         try:

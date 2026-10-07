@@ -4,8 +4,6 @@ from docx import Document
 from docx.shared import Inches as DocInches, Pt as DocPt, RGBColor as DocRGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml import OxmlElement, parse_xml
-from docx.oxml.ns import nsdecls, qn
 
 def create_letters_doc():
     doc = Document()
@@ -18,15 +16,14 @@ def create_letters_doc():
         section.left_margin = DocInches(1.0)
         section.right_margin = DocInches(1.0)
 
-    # Style definitions
-    # Heading style
+    # Helper: Add formal university letterhead
     def add_header_block(title, subtitle=""):
         p = doc.add_paragraph()
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         run1 = p.add_run("PHINMA UNIVERSITY OF PANGASINAN\n")
         run1.bold = True
         run1.font.size = DocPt(12)
-        run1.font.color.rgb = DocRGBColor(27, 67, 50) # Dark Green
+        run1.font.color.rgb = DocRGBColor(27, 67, 50) # Coastal Dark Green
         
         run2 = p.add_run("COLLEGE OF HOSPITALITY AND TOURISM MANAGEMENT\n")
         run2.bold = True
@@ -70,22 +67,21 @@ def create_letters_doc():
     r_sub_t.bold = True
 
     doc.add_paragraph("Dear Administration,")
-    
     doc.add_paragraph("Good day!")
 
     p_b1 = doc.add_paragraph(
-        "The College of Hospitality and Tourism Management (CHTM) BAM 205 class respectfully requests permission to reserve and utilize the PHINMA-University of Pangasinan Gymnasium for the Pangasinan Eco-Haven & Culinary Showcase 2026 (PECS 2026) conference on September 17, 2026, from 7:00 AM to 5:00 PM (inclusive of setup, operational hours, and teardown)."
+        "The College of Hospitality and Tourism Management (CHTM) BAM 205 class respectfully requests permission to reserve and utilize the PHINMA-University of Pangasinan Gymnasium for the Pangasinan Eco-Haven & Culinary Showcase 2026 (PECS 2026) conference on Thursday, September 17, 2026, from 7:00 AM to 1:00 PM (inclusive of setup, operational hours, and teardown)."
     )
 
     p_b2 = doc.add_paragraph(
-        "We also humbly request authorization for student committee members to remain on campus beyond standard hours during setup on September 16, 2026 (until 7:00 PM), along with technical assistance for the following:"
+        "We also humbly request authorization for student committee members to remain on campus during technical setup on September 16, 2026 (until 7:00 PM), along with logistics and technical support for:"
     )
 
     reqs = [
-        "1. Main stage projector / LED screen integration with HDMI connectivity.",
-        "2. Sound system setup: 1 podium microphone, 4 wireless handheld microphones, and 2 lapel mics.",
-        "3. Stage podium and chairs for panel discussions, as well as 500 spectator chairs arranged theater-style on the gym floor.",
-        "4. Facility ventilation / cooling and lighting support throughout operational hours."
+        "1. Main stage projector / LED screen integration with HDMI connectivity for plenary slide decks.",
+        "2. Integrated sound system: 1 podium microphone, 4 wireless handheld microphones for interactive Q&A, and 2 lapel mics for keynote speakers.",
+        "3. Stage podium and chairs for plenary speakers, as well as 500 spectator chairs arranged theater-style on the gym floor.",
+        "4. Facility ventilation / air cooling and full hall lighting support throughout operational hours."
     ]
     for req in reqs:
         p_item = doc.add_paragraph(req)
@@ -93,7 +89,7 @@ def create_letters_doc():
         p_item.paragraph_format.space_after = DocPt(3)
 
     doc.add_paragraph(
-        "This conference serves as the final practical output for our BAM 205 course. Thank you very much for your continued guidance and support of student academic endeavors."
+        "This conference serves as the culminating practical output for our BAM 205 course. Thank you very much for your continuous guidance and support of student academic endeavors."
     )
 
     p_sign = doc.add_paragraph()
@@ -105,46 +101,104 @@ def create_letters_doc():
     doc.add_page_break()
 
     # -------------------------------------------------------------
-    # LETTER 2: Invitation Letter to Keynote Speaker
+    # LETTER 2A: Official Invitation to Keynote Speaker 1 (Ms. Maria Luisa A. Elduayan)
     # -------------------------------------------------------------
-    add_header_block("LETTER 2: OFFICIAL INVITATION TO KEYNOTE SPEAKER")
+    add_header_block("LETTER 2A: OFFICIAL INVITATION — KEYNOTE SPEAKER 1")
 
-    p_date2 = doc.add_paragraph()
-    r_date2 = p_date2.add_run("Date: ")
-    r_date2.bold = True
-    p_date2.add_run("September 2, 2026")
+    p_date2a = doc.add_paragraph()
+    r_date2a = p_date2a.add_run("Date: ")
+    r_date2a.bold = True
+    p_date2a.add_run("September 2, 2026")
 
-    p_to2 = doc.add_paragraph()
-    r_to2 = p_to2.add_run("TO:       ")
-    r_to2.bold = True
-    p_to2.add_run("[Speaker's Name / Professional Title]\n[Position / Designation]\n[Organization / Agency Name]")
+    p_to2a = doc.add_paragraph()
+    r_to2a = p_to2a.add_run("TO:       ")
+    r_to2a.bold = True
+    p_to2a.add_run("MS. MARIA LUISA A. ELDUAYAN\nProvincial Tourism Officer\nProvincial Tourism and Cultural Affairs Office (PTCAO) — Pangasinan")
 
-    p_sub2 = doc.add_paragraph()
-    r_sub2 = p_sub2.add_run("SUBJECT:  ")
-    r_sub2.bold = True
-    r_sub2_t = p_sub2.add_run("Invitation as Keynote Speaker – PECS 2026 Regional Conference")
-    r_sub2_t.bold = True
+    p_sub2a = doc.add_paragraph()
+    r_sub2a = p_sub2a.add_run("SUBJECT:  ")
+    r_sub2a.bold = True
+    r_sub2a_t = p_sub2a.add_run("Invitation as Keynote Speaker 1 – PECS 2026 Regional Conference")
+    r_sub2a_t.bold = True
 
-    doc.add_paragraph("Dear [Speaker's Name],")
-    doc.add_paragraph("Greetings from PHINMA University of Pangasinan!")
+    doc.add_paragraph("Dear Ms. Elduayan,")
+    doc.add_paragraph("Warm greetings from PHINMA University of Pangasinan!")
 
     doc.add_paragraph(
-        "The College of Hospitality and Tourism Management cordially invites you to serve as a Keynote Speaker for the Pangasinan Eco-Haven & Culinary Showcase 2026 (PECS 2026) Conference on Thursday, September 17, 2026, at the PHINMA-UPang Gymnasium."
+        "The College of Hospitality and Tourism Management cordially invites you to serve as our Keynote Speaker 1 for the Pangasinan Eco-Haven & Culinary Showcase 2026 (PECS 2026) Conference on Thursday, September 17, 2026, at the PHINMA-UPang Gymnasium, Dagupan City."
     )
 
     doc.add_paragraph(
-        "Our conference theme, “Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan,” aims to equip 500+ undergraduate delegates with actionable strategies for sustainable hospitality growth. Given your distinguished expertise in regional tourism frameworks and cultural preservation, we would be honored to have you deliver a 45-minute presentation followed by a 15-minute open Q&A session."
+        "Our conference theme, “Sustaining the Coastline: Strategies for Eco-Tourism Development and Heritage Culinary Preservation in Pangasinan,” convenes 500+ undergraduate hospitality and tourism delegates. In light of your visionary leadership in provincial destination management, we would be deeply honored to have you deliver a 40-minute keynote address on:"
+    )
+
+    p_title1 = doc.add_paragraph()
+    p_title1.paragraph_format.left_indent = DocInches(0.4)
+    r_t1 = p_title1.add_run("“Protecting Pangasinan’s Shorelines: Sustainable Eco-Tourism Strategies and Carrying Capacity in Coastal Destinations”")
+    r_t1.bold = True
+    r_t1.font.color.rgb = DocRGBColor(27, 67, 50)
+    p_title1.add_run("\nScheduled Time: 9:00 AM – 9:40 AM (followed by Interactive Q&A at 9:40 AM – 10:05 AM)")
+
+    doc.add_paragraph(
+        "Dedicated VIP hospitality, honorarium, tokens of appreciation, and reserved campus parking will be provided. We look forward to confirming your gracious presence."
+    )
+
+    p_sign2a = doc.add_paragraph()
+    p_sign2a.add_run("Warm regards,\n\n\n").font.size = DocPt(11)
+    r_name2a = p_sign2a.add_run("[Your Name]\n")
+    r_name2a.bold = True
+    p_sign2a.add_run("Speaker Relations Lead, PECS 2026\nCHTM — PHINMA University of Pangasinan")
+
+    doc.add_page_break()
+
+    # -------------------------------------------------------------
+    # LETTER 2B: Official Invitation to Keynote Speaker 2 (Felice Prudente Sta. Maria)
+    # -------------------------------------------------------------
+    add_header_block("LETTER 2B: OFFICIAL INVITATION — KEYNOTE SPEAKER 2")
+
+    p_date2b = doc.add_paragraph()
+    r_date2b = p_date2b.add_run("Date: ")
+    r_date2b.bold = True
+    p_date2b.add_run("September 2, 2026")
+
+    p_to2b = doc.add_paragraph()
+    r_to2b = p_to2b.add_run("TO:       ")
+    r_to2b.bold = True
+    p_to2b.add_run("MS. FELICE PRUDENTE STA. MARIA\nRenowned Culinary Historian, Author & Cultural Heritage Advocate\nManila / Pangasinan")
+
+    p_sub2b = doc.add_paragraph()
+    r_sub2b = p_sub2b.add_run("SUBJECT:  ")
+    r_sub2b.bold = True
+    r_sub2b_t = p_sub2b.add_run("Invitation as Keynote Speaker 2 – PECS 2026 Regional Conference")
+    r_sub2b_t.bold = True
+
+    doc.add_paragraph("Dear Ms. Sta. Maria,")
+    doc.add_paragraph("Warm greetings from PHINMA University of Pangasinan!")
+
+    doc.add_paragraph(
+        "The College of Hospitality and Tourism Management cordially invites you to serve as Keynote Speaker 2 for the Pangasinan Eco-Haven & Culinary Showcase 2026 (PECS 2026) Conference on Thursday, September 17, 2026, at the PHINMA-UPang Gymnasium, Dagupan City."
     )
 
     doc.add_paragraph(
-        "Dedicated VIP hospitality, honorarium, tokens of appreciation, and campus parking privileges will be provided throughout the event. We look forward to confirming your esteemed participation."
+        "Given your distinguished lifelong scholarship and pioneering work in Philippine culinary history and gastronomy tourism, we would be immensely privileged to host your 40-minute plenary lecture on:"
     )
 
-    p_sign2 = doc.add_paragraph()
-    p_sign2.add_run("Warm regards,\n\n\n").font.size = DocPt(11)
-    r_name2 = p_sign2.add_run("[Your Name]\n")
-    r_name2.bold = True
-    p_sign2.add_run("Speaker Relations Lead, PECS 2026\nCHTM — PHINMA University of Pangasinan")
+    p_title2 = doc.add_paragraph()
+    p_title2.paragraph_format.left_indent = DocInches(0.4)
+    r_t2 = p_title2.add_run("“From Coastal Waters to Heritage Plates: Preserving Pangasinan’s Culinary Identity in Modern Gastronomy Tourism”")
+    r_t2.bold = True
+    r_t2.font.color.rgb = DocRGBColor(27, 67, 50)
+    p_title2.add_run("\nScheduled Time: 10:05 AM – 10:45 AM (followed by Interactive Q&A at 10:45 AM – 11:10 AM)")
+
+    doc.add_paragraph(
+        "Dedicated VIP reception, full technical assistance, travel and accommodation arrangements, honorarium, and tokens will be provided. We eagerly anticipate your positive confirmation."
+    )
+
+    p_sign2b = doc.add_paragraph()
+    p_sign2b.add_run("Warm regards,\n\n\n").font.size = DocPt(11)
+    r_name2b = p_sign2b.add_run("[Your Name]\n")
+    r_name2b.bold = True
+    p_sign2b.add_run("Speaker Relations Lead, PECS 2026\nCHTM — PHINMA University of Pangasinan")
 
     doc.add_page_break()
 
@@ -172,11 +226,11 @@ def create_letters_doc():
     doc.add_paragraph("Dear Professors,")
 
     doc.add_paragraph(
-        "The organizing committee of PECS 2026 respectfully requests class excuse for participating BSHM and BSTM student organizers and registered delegates on Thursday, September 17, 2026, from 8:00 AM to 4:00 PM."
+        "The organizing committee of PECS 2026 respectfully requests class excuse for participating BSHM and BSTM student organizers and registered delegates on Thursday, September 17, 2026, from 7:30 AM to 1:00 PM."
     )
 
     doc.add_paragraph(
-        "These students will be actively managing conference logistics, main-stage operations, secretariat desks, and participating in session discussions at the PHINMA-UPang Gymnasium to fulfill BAM 205 (MICE) course requirements. Participating students remain accountable for all academic responsibilities and missed lectures."
+        "These students will be actively managing conference logistics, registration desks, stage AV operations, and participating in plenary keynote discussions at the PHINMA-UPang Gymnasium to fulfill BAM 205 (MICE) course requirements. Participating students remain accountable for all academic responsibilities and missed coursework."
     )
 
     doc.add_paragraph(
@@ -215,7 +269,7 @@ def create_letters_doc():
 
     details = [
         ("• Event Name:", "PECS 2026: Regional Conference on Sustainable Tourism & Heritage Culinary Innovation"),
-        ("• Date & Operational Time:", "Thursday, September 17, 2026 | 7:00 AM – 5:00 PM\n(Including ingress, conference sessions, and egress)"),
+        ("• Date & Operational Time:", "Thursday, September 17, 2026 | 7:00 AM – 1:00 PM\n(Including ingress, plenary sessions, synthesis, and egress)"),
         ("• Official Venue:", "PHINMA-University of Pangasinan Gymnasium, Arellano Street, Dagupan City")
     ]
 
@@ -248,11 +302,12 @@ def create_letters_doc():
     r_sname.bold = True
     p_sig4.add_run("Contact Number: ___________________________________")
 
-    # Save to Downloads & Documents
+    # Save to multiple targets
     doc_paths = [
         r"C:\Users\Admin\Downloads\PECS_2026_Administrative_Letters.docx",
         r"C:\Users\Admin\Documents\PECS_2026_Administrative_Letters.docx",
-        r"C:\Users\Admin\.gemini\antigravity\scratch\PECS_2026_Administrative_Letters.docx"
+        r"C:\Users\Admin\.gemini\antigravity\scratch\PECS_2026_Administrative_Letters.docx",
+        r"C:\Users\Admin\.gemini\antigravity\scratch\PECS2026\PECS_2026_Administrative_Letters.docx"
     ]
     for dp in doc_paths:
         try:
